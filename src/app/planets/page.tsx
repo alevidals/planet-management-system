@@ -1,17 +1,9 @@
-import { client } from "@/lib/genql";
+import { PlanetsList } from "@/components/planets-list";
+import { getPlanets } from "@/lib/planets";
 import Link from "next/link";
 
 export default async function PlanetsPage() {
-  const planets = await client.query({
-    allPlanets: {
-      planets: {
-        id: true,
-        name: true,
-      },
-    },
-  });
-
-  console.log(planets);
+  const planets = await getPlanets();
 
   return (
     <main className="bg-zinc-900 min-h-screen container mx-auto">
@@ -20,6 +12,8 @@ export default async function PlanetsPage() {
       <Link className="underline" href="/">
         Go to home
       </Link>
+
+      <PlanetsList planets={planets} />
     </main>
   );
 }
