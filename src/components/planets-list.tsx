@@ -1,11 +1,28 @@
-import type { getPlanets } from "@/lib/planets";
+"use client";
+
+import { planetsAtom } from "@/lib/atoms";
+import type { Planet } from "@/lib/types";
+import { useAtomValue, useStore } from "jotai";
 import Link from "next/link";
+import { useRef } from "react";
 
 type Props = {
-  planets: Awaited<ReturnType<typeof getPlanets>>;
+  planets: Planet[];
 };
 
-export function PlanetsList({ planets }: Props) {
+export function PlanetsList({ planets: initialPlanets }: Props) {
+  const store = useStore();
+  const loaded = useRef(false);
+
+  if (!loaded.current) {
+    loaded.current = true;
+    store.set(planetsAtom, initialPlanets);
+  }
+
+  const planets = useAtomValue(planetsAtom, {
+    store,
+  });
+
   return (
     <div>
       <ul className="grid grid-cols-3 gap-4">
