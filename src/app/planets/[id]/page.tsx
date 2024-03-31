@@ -56,10 +56,7 @@ export default function PlanetsPage({ params }: Props) {
     router.replace("/planets");
   }
 
-  console.log(form.formState.errors);
-
   function handleOnSubmit(data: UpdatePlanet) {
-    console.log(data);
     const newPlanets = planets.map((planet) => {
       if (planet.id === decodeURIComponent(params.id)) {
         const newPlanet: Planet = {

@@ -21,7 +21,10 @@ export const insertPlanetSchema = z.object({
     .min(1, {
       message: "At least one terrain is required",
     }),
-  residents: z.array(z.string().min(1, { message: "Name is required" })),
+  residents: z
+    .array(z.string().min(1, { message: "Name is required" }))
+    .optional()
+    .nullable(),
 });
 
 export const updatePlanetSchema = z.object({

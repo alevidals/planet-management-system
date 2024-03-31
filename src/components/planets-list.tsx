@@ -1,5 +1,6 @@
 "use client";
 
+import { PlanetCard } from "@/components/planet-card";
 import { planetsAtom } from "@/lib/atoms";
 import type { Planet } from "@/lib/types";
 import { useAtom, useStore } from "jotai";
@@ -19,26 +20,13 @@ export function PlanetsList({ planets: initialPlanets }: Props) {
     setPlanets(initialPlanets);
   }
 
-  const formatter = new Intl.ListFormat("en", {
-    style: "long",
-    type: "conjunction",
-  });
-
   return (
-    <div>
-      <ul className="grid grid-cols-3 gap-4">
-        {planets.map((planet) => (
-          <li className="bg-zinc-900 p-4 rounded-lg" key={planet.id}>
-            <Link href={`/planets/${planet.id}`}>
-              <p>{planet.name}</p>
-              <p>{planet.diameter}</p>
-              <p>{formatter.format(planet.climates)}</p>
-              <p>{formatter.format(planet.terrains)}</p>
-              <p>{planet.residents.length}</p>
-            </Link>
-          </li>
-        ))}
-      </ul>
+    <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
+      {planets.map((planet) => (
+        <Link href={`/planets/${planet.id}`} key={planet.id}>
+          <PlanetCard planet={planet} />
+        </Link>
+      ))}
     </div>
   );
 }

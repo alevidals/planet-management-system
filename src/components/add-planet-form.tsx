@@ -5,11 +5,24 @@ import { planetsAtom } from "@/lib/atoms";
 import { insertPlanetSchema } from "@/lib/schemas";
 import type { InsertPlanet, Planet } from "@/lib/types";
 import { zodResolver } from "@hookform/resolvers/zod";
+import {
+  Button,
+  Input,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  useDisclosure,
+} from "@nextui-org/react";
+import { IconMinus, IconPlus } from "@tabler/icons-react";
 import { useSetAtom, useStore } from "jotai";
 import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 
 export function AddPlanetForm() {
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+
   const setPlanets = useSetAtom(planetsAtom, {
     store: useStore(),
   });
@@ -20,7 +33,6 @@ export function AddPlanetForm() {
       diameter: 0,
       climates: [""],
       terrains: [""],
-      residents: [""],
     },
   });
 
@@ -57,120 +69,229 @@ export function AddPlanetForm() {
   }
 
   function handleSubmit(data: InsertPlanet) {
-    console.log(data);
     const planet: Planet = {
       id: randomBytes(12).toString("hex"),
       name: data.name,
       diameter: Number(data.diameter),
       climates: data.climates,
       terrains: data.terrains,
-      residents: data.residents.map((resident) => ({
-        id: Math.random().toString(),
-        name: resident,
-      })),
+      residents:
+        data.residents?.map((resident) => ({
+          id: randomBytes(12).toString("hex"),
+          name: resident,
+        })) ?? [],
     };
     setPlanets((prev) => [...prev, planet]);
     form.reset();
+    onOpenChange();
   }
 
   return (
-    <div className="m-5 p-5">
-      <form
-        className="flex flex-col gap-3 w-64"
-        onSubmit={form.handleSubmit(handleSubmit)}
+    <div>
+      <Button onPress={onOpen}>Add Planet</Button>
+      <Modal
+        isOpen={isOpen}
+        onOpenChange={onOpenChange}
+        className="max-h-[50rem] overflow-y-scroll scrollbar-hide"
       >
-        <input
-          className="text-black"
-          placeholder="name"
-          {...form.register("name")}
-        />
-        {form.formState.errors.name && (
-          <span className="text-red-500">
-            {form.formState.errors.name.message}
-          </span>
-        )}
-        <input
-          className="text-black"
-          placeholder="diameter"
-          type="number"
-          {...form.register("diameter", {
-            valueAsNumber: true,
-          })}
-        />
-        <button
-          type="button"
-          onClick={() => handleChangeField({ type: "climate", action: "add" })}
-        >
-          +
-        </button>
-        <button
-          disabled={numberOfClimateFields === 1}
-          className="disabled:opacity-50"
-          type="button"
-          onClick={() =>
-            handleChangeField({ type: "climate", action: "remove" })
-          }
-        >
-          -
-        </button>
-        {Array.from({ length: numberOfClimateFields }).map((_, index) => (
-          <input
-            className="text-black"
-            key={`climate-${index}`}
-            placeholder="climate"
-            {...form.register(`climates.${index}`)}
-          />
-        ))}
-        <button
-          type="button"
-          onClick={() => handleChangeField({ type: "terrain", action: "add" })}
-        >
-          +
-        </button>
-        <button
-          disabled={numberOfTerrainFields === 1}
-          className="disabled:opacity-50"
-          type="button"
-          onClick={() =>
-            handleChangeField({ type: "terrain", action: "remove" })
-          }
-        >
-          -
-        </button>
-        {Array.from({ length: numberOfTerrainFields }).map((_, index) => (
-          <input
-            className="text-black"
-            key={`terrain-${index}`}
-            placeholder="terrain"
-            {...form.register(`terrains.${index}`)}
-          />
-        ))}
-        <button
-          type="button"
-          onClick={() => handleChangeField({ type: "resident", action: "add" })}
-        >
-          +
-        </button>
-        <button
-          disabled={numberOfResidentsFields === 0}
-          className="disabled:opacity-50 disabled:bg-red-400"
-          type="button"
-          onClick={() =>
-            handleChangeField({ type: "resident", action: "remove" })
-          }
-        >
-          -
-        </button>
-        {Array.from({ length: numberOfResidentsFields }).map((_, index) => (
-          <input
-            className="text-black"
-            key={`resident-${index}`}
-            placeholder="resident"
-            {...form.register(`residents.${index}`)}
-          />
-        ))}
-        <button type="submit">Submit</button>
-      </form>
+        <ModalContent className="text-white">
+          {(onClose) => (
+            <>
+              <ModalHeader className="flex flex-col gap-1">
+                Add planet
+              </ModalHeader>
+              <ModalBody as="form" onSubmit={form.handleSubmit(handleSubmit)}>
+                <Controller
+                  name="name"
+                  control={form.control}
+                  render={({ field }) => (
+                    <Input
+                      label="Name"
+                      isInvalid={!!form.formState.errors.name}
+                      errorMessage={form.formState.errors.name?.message}
+                      {...field}
+                    />
+                  )}
+                />
+                <Controller
+                  name="diameter"
+                  control={form.control}
+                  render={({ field }) => (
+                    <Input
+                      label="Diameter"
+                      type="number"
+                      isInvalid={!!form.formState.errors.diameter}
+                      errorMessage={form.formState.errors.diameter?.message}
+                      {...field}
+                      // onChange={(event) => field.onChange(+event.target.value.toS)}
+                    />
+                  )}
+                />
+                <div className="flex gap-x-2 items-center justify-between">
+                  <p className="text-default-500 text-sm">
+                    Add or remove climates
+                  </p>
+                  <div className="flex gap-x-2 items-center">
+                    <Button
+                      isIconOnly
+                      color="primary"
+                      size="sm"
+                      onClick={() =>
+                        handleChangeField({ type: "climate", action: "add" })
+                      }
+                    >
+                      <IconPlus />
+                    </Button>
+                    <Button
+                      disabled={numberOfClimateFields === 1}
+                      className="disabled:opacity-50"
+                      isIconOnly
+                      color="danger"
+                      size="sm"
+                      onClick={() =>
+                        handleChangeField({ type: "climate", action: "remove" })
+                      }
+                    >
+                      <IconMinus />
+                    </Button>
+                  </div>
+                </div>
+                {Array.from({ length: numberOfClimateFields }).map(
+                  (_, index) => (
+                    <Controller
+                      key={`climate-${index}`}
+                      control={form.control}
+                      name={`climates.${index}`}
+                      render={({ field }) => (
+                        <Input
+                          label="Climate"
+                          isInvalid={!!form.formState.errors.climates?.[index]}
+                          errorMessage={
+                            form.formState.errors.climates?.[index]?.message
+                          }
+                          {...field}
+                        />
+                      )}
+                    />
+                  ),
+                )}
+                <div className="flex gap-x-2 items-center justify-between">
+                  <p className="text-default-500 text-sm">
+                    Add or remove terrains
+                  </p>
+                  <div className="flex gap-x-2 items-center">
+                    <Button
+                      isIconOnly
+                      color="primary"
+                      size="sm"
+                      onClick={() =>
+                        handleChangeField({ type: "terrain", action: "add" })
+                      }
+                    >
+                      <IconPlus />
+                    </Button>
+                    <Button
+                      disabled={numberOfTerrainFields === 1}
+                      className="disabled:opacity-50"
+                      isIconOnly
+                      color="danger"
+                      size="sm"
+                      onClick={() =>
+                        handleChangeField({ type: "terrain", action: "remove" })
+                      }
+                    >
+                      <IconMinus />
+                    </Button>
+                  </div>
+                </div>
+                {Array.from({ length: numberOfTerrainFields }).map(
+                  (_, index) => (
+                    <Controller
+                      key={`terrain-${index}`}
+                      control={form.control}
+                      name={`terrains.${index}`}
+                      render={({ field }) => (
+                        <Input
+                          label="Terrain"
+                          isInvalid={!!form.formState.errors.terrains?.[index]}
+                          errorMessage={
+                            form.formState.errors.terrains?.[index]?.message
+                          }
+                          {...field}
+                        />
+                      )}
+                    />
+                  ),
+                )}
+                <div className="flex gap-x-2 items-center justify-between">
+                  <p className="text-default-500 text-sm">
+                    Add or remove residents
+                  </p>
+                  <div className="flex gap-x-2 items-center">
+                    <Button
+                      isIconOnly
+                      color="primary"
+                      size="sm"
+                      onClick={() =>
+                        handleChangeField({ type: "resident", action: "add" })
+                      }
+                    >
+                      <IconPlus />
+                    </Button>
+                    <Button
+                      disabled={numberOfResidentsFields === 0}
+                      className="disabled:opacity-50"
+                      isIconOnly
+                      color="danger"
+                      size="sm"
+                      onClick={() =>
+                        handleChangeField({
+                          type: "resident",
+                          action: "remove",
+                        })
+                      }
+                    >
+                      <IconMinus />
+                    </Button>
+                  </div>
+                </div>
+                {Array.from({ length: numberOfResidentsFields }).map(
+                  (_, index) => (
+                    <Controller
+                      key={`resident-${index}`}
+                      control={form.control}
+                      name={`residents.${index}`}
+                      render={({ field }) => (
+                        <Input
+                          label="Resident"
+                          isInvalid={!!form.formState.errors.residents?.[index]}
+                          errorMessage={
+                            form.formState.errors.residents?.[index]?.message
+                          }
+                          {...field}
+                        />
+                      )}
+                    />
+                  ),
+                )}
+                <ModalFooter className="px-0">
+                  <Button
+                    color="danger"
+                    variant="light"
+                    onPress={onClose}
+                    type="button"
+                  >
+                    Cancel
+                  </Button>
+                  <Button color="primary" type="submit">
+                    Add Planet
+                  </Button>
+                </ModalFooter>
+              </ModalBody>
+            </>
+          )}
+        </ModalContent>
+      </Modal>
     </div>
   );
 }
