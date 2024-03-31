@@ -26,7 +26,7 @@ export function AddPlanetForm() {
 
   const [numberOfClimateFields, setNumberOfClimateFields] = useState(1);
   const [numberOfTerrainFields, setNumberOfTerrainFields] = useState(1);
-  const [numberOfResidentsFields, setNumberOfResidentsFields] = useState(1);
+  const [numberOfResidentsFields, setNumberOfResidentsFields] = useState(0);
 
   function handleChangeField({
     type,
@@ -50,7 +50,7 @@ export function AddPlanetForm() {
     } else if (type === "resident") {
       if (action === "add") {
         setNumberOfResidentsFields((prev) => prev + 1);
-      } else if (numberOfResidentsFields > 1) {
+      } else if (numberOfResidentsFields > 0) {
         setNumberOfResidentsFields((prev) => prev - 1);
       }
     }
@@ -152,8 +152,8 @@ export function AddPlanetForm() {
           +
         </button>
         <button
-          disabled={numberOfResidentsFields === 1}
-          className="disabled:opacity-50"
+          disabled={numberOfResidentsFields === 0}
+          className="disabled:opacity-50 disabled:bg-red-400"
           type="button"
           onClick={() =>
             handleChangeField({ type: "resident", action: "remove" })

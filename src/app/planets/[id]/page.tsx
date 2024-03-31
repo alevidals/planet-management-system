@@ -1,9 +1,13 @@
 "use client";
 
 import { planetsAtom } from "@/lib/atoms";
+import { updatePlanetSchema } from "@/lib/schemas";
+import type { Planet, UpdatePlanet } from "@/lib/types";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useAtom, useStore } from "jotai";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
 
 type Props = {
   params: { id: string };
@@ -24,6 +28,17 @@ export default function PlanetsPage({ params }: Props) {
     return;
   }
 
+  const form = useForm<UpdatePlanet>({
+    resolver: zodResolver(updatePlanetSchema),
+    defaultValues: {
+      name: planet.name,
+      diameter: planet.diameter,
+      climates: planet.climates,
+      terrains: planet.terrains,
+      residents: planet.residents,
+    },
+  });
+
   const formatter = new Intl.ListFormat("en", {
     style: "long",
     type: "conjunction",
@@ -41,6 +56,30 @@ export default function PlanetsPage({ params }: Props) {
     router.replace("/planets");
   }
 
+  console.log(form.formState.errors);
+
+  function handleOnSubmit(data: UpdatePlanet) {
+    console.log(data);
+    const newPlanets = planets.map((planet) => {
+      if (planet.id === decodeURIComponent(params.id)) {
+        const newPlanet: Planet = {
+          ...planet,
+          ...data,
+          residents: data.residents.map((resident) => ({
+            id: resident.id || Math.random().toString(),
+            name: resident.name,
+          })),
+        };
+
+        return newPlanet;
+      }
+
+      return planet;
+    });
+
+    setPlanets(newPlanets);
+  }
+
   return (
     <main>
       <h1 className="text-primary">PMS</h1>
@@ -51,6 +90,26 @@ export default function PlanetsPage({ params }: Props) {
       <button type="button" onClick={handleDeletePlanet}>
         Delete planet
       </button>
+
+      <form
+        className="p-3 m-3 text-black"
+        onSubmit={form.handleSubmit(handleOnSubmit)}
+      >
+        <input {...form.register("name")} />
+        <input {...form.register("diameter")} />
+        {form.getValues("climates").map((climate, index) => (
+          <input key={index} {...form.register(`climates.${index}`)} />
+        ))}
+        {form.getValues("terrains").map((terrain, index) => (
+          <input key={index} {...form.register(`terrains.${index}`)} />
+        ))}
+        {form.getValues("residents").map((resident, index) => (
+          <input key={index} {...form.register(`residents.${index}.name`)} />
+        ))}
+        <button type="submit" className="text-white">
+          Submit
+        </button>
+      </form>
 
       <div className="flex flex-col gap-5">
         <div className="bg-zinc-900 rounded-lg p-4 w-64">
