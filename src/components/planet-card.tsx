@@ -36,7 +36,9 @@ export function PlanetCard({ planet }: Props) {
           <IconBackground size={24} className="text-primary" />
           <div>
             <p className="text-sm text-default-500">Terrains</p>
-            <p className="text-md">{listFormatter.format(planet.terrains)}</p>
+            <p className="text-md line-clamp-1">
+              {listFormatter.format(planet.terrains)}
+            </p>
           </div>
         </div>
         <div className="flex gap-x-4 items-center">

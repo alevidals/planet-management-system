@@ -8,14 +8,48 @@ const config: Config = {
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
     "./node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}",
   ],
-  theme: {
-    extend: {
-      colors: {
-        // primary: "#FFE81F",
+  plugins: [
+    nextui({
+      themes: {
+        light: {
+          colors: {
+            primary: {
+              DEFAULT: "#FFE81F",
+              foreground: "FFDF00",
+              50: "#FFF8B7",
+              100: "#FFF5A3",
+              200: "#FFF28F",
+              300: "#FFEF7B",
+              400: "#FFE81F",
+              500: "#FFDF00",
+              600: "#FFD600",
+              700: "#FFCC00",
+              800: "#FFC200",
+              900: "#FFB000",
+            },
+          },
+        },
+        dark: {
+          colors: {
+            primary: {
+              DEFAULT: "#FFE81F",
+              foreground: "#FFDF00",
+              50: "#FFF8B7",
+              100: "#FFF5A3",
+              200: "#FFF28F",
+              300: "#FFEF7B",
+              400: "#FFE81F",
+              500: "#FFDF00",
+              600: "#FFD600",
+              700: "#FFCC00",
+              800: "#FFC200",
+              900: "#FFB000",
+            },
+          },
+        },
       },
-    },
-  },
-  plugins: [nextui()],
+    }),
+  ],
   darkMode: "class",
 };
 export default config;

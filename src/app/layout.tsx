@@ -1,3 +1,4 @@
+import { Header } from "@/components/header";
 import { Providers } from "@/components/providers";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
@@ -17,8 +18,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${inter.className} dark bg-background`}>
-        <Providers>{children}</Providers>
+      <body className={`${inter.className} dark bg-background p-4`}>
+        <Providers>
+          <Header />
+          {children}
+        </Providers>
       </body>
     </html>
   );

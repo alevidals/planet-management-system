@@ -88,7 +88,13 @@ export function AddPlanetForm() {
 
   return (
     <div>
-      <Button onPress={onOpen}>Add Planet</Button>
+      <Button
+        onPress={onOpen}
+        className="bg-primary-400 text-background font-semibold"
+        endContent={<IconPlus size="16" />}
+      >
+        Add Planet
+      </Button>
       <Modal
         isOpen={isOpen}
         onOpenChange={onOpenChange}
@@ -123,7 +129,9 @@ export function AddPlanetForm() {
                       isInvalid={!!form.formState.errors.diameter}
                       errorMessage={form.formState.errors.diameter?.message}
                       {...field}
-                      // onChange={(event) => field.onChange(+event.target.value.toS)}
+                      onChange={(event) =>
+                        field.onChange(Number(event.target.value))
+                      }
                     />
                   )}
                 />
@@ -136,6 +144,7 @@ export function AddPlanetForm() {
                       isIconOnly
                       color="primary"
                       size="sm"
+                      className="text-background"
                       onClick={() =>
                         handleChangeField({ type: "climate", action: "add" })
                       }
@@ -144,7 +153,7 @@ export function AddPlanetForm() {
                     </Button>
                     <Button
                       disabled={numberOfClimateFields === 1}
-                      className="disabled:opacity-50"
+                      className="disabled:opacity-50 text-background"
                       isIconOnly
                       color="danger"
                       size="sm"
@@ -183,6 +192,7 @@ export function AddPlanetForm() {
                     <Button
                       isIconOnly
                       color="primary"
+                      className="text-background"
                       size="sm"
                       onClick={() =>
                         handleChangeField({ type: "terrain", action: "add" })
@@ -192,7 +202,7 @@ export function AddPlanetForm() {
                     </Button>
                     <Button
                       disabled={numberOfTerrainFields === 1}
-                      className="disabled:opacity-50"
+                      className="disabled:opacity-50 text-background"
                       isIconOnly
                       color="danger"
                       size="sm"
@@ -232,6 +242,7 @@ export function AddPlanetForm() {
                       isIconOnly
                       color="primary"
                       size="sm"
+                      className="text-background"
                       onClick={() =>
                         handleChangeField({ type: "resident", action: "add" })
                       }
@@ -283,7 +294,11 @@ export function AddPlanetForm() {
                   >
                     Cancel
                   </Button>
-                  <Button color="primary" type="submit">
+                  <Button
+                    color="primary"
+                    type="submit"
+                    className="text-background"
+                  >
                     Add Planet
                   </Button>
                 </ModalFooter>
