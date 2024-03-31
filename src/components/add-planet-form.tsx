@@ -1,5 +1,6 @@
 "use client";
 
+import { randomBytes } from "crypto";
 import { planetsAtom } from "@/lib/atoms";
 import { insertPlanetSchema } from "@/lib/schemas";
 import type { InsertPlanet, Planet } from "@/lib/types";
@@ -15,11 +16,11 @@ export function AddPlanetForm() {
   const form = useForm<InsertPlanet>({
     resolver: zodResolver(insertPlanetSchema),
     defaultValues: {
-      name: "ggg",
-      diameter: 1000,
-      climates: ["asd"],
-      terrains: ["sdf"],
-      residents: ["dfg"],
+      name: "",
+      diameter: 0,
+      climates: [""],
+      terrains: [""],
+      residents: [""],
     },
   });
 
@@ -58,7 +59,7 @@ export function AddPlanetForm() {
   function handleSubmit(data: InsertPlanet) {
     console.log(data);
     const planet: Planet = {
-      id: Math.random().toString(),
+      id: randomBytes(12).toString("hex"),
       name: data.name,
       diameter: Number(data.diameter),
       climates: data.climates,

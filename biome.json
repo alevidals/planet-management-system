@@ -10,6 +10,9 @@
       "recommended": true,
       "suspicious": {
         "noArrayIndexKey": "off"
+      },
+      "style": {
+        "useNodejsImportProtocol": "off"
       }
     }
   },
