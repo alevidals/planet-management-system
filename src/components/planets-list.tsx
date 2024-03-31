@@ -27,13 +27,13 @@ export function PlanetsList({ planets: initialPlanets }: Props) {
     <div>
       <ul className="grid grid-cols-3 gap-4">
         {planets.map((planet) => (
-          <li className="bg-zinc-950 p-4 rounded-lg" key={planet.id}>
+          <li className="bg-zinc-900 p-4 rounded-lg" key={planet.id}>
             <Link href={`/planets/${planet.id}`}>
               <p>{planet.name}</p>
               <p>{planet.diameter}</p>
               <p>{planet.climates.join(",")}</p>
               <p>{planet.terrains.join(",")}</p>
-              <p>{planet.numberOfResidents}</p>
+              <p>{planet.residents.length}</p>
             </Link>
           </li>
         ))}

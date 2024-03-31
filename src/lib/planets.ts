@@ -12,7 +12,10 @@ export async function getPlanets() {
             climates: true,
             terrains: true,
             residentConnection: {
-              totalCount: true,
+              residents: {
+                id: true,
+                name: true,
+              },
             },
           },
         },
@@ -24,7 +27,11 @@ export async function getPlanets() {
           diameter: planet?.diameter,
           climates: planet?.climates?.map((climate) => climate as string) ?? [],
           terrains: planet?.terrains?.map((terrain) => terrain as string) ?? [],
-          numberOfResidents: planet?.residentConnection?.totalCount,
+          residents:
+            planet?.residentConnection?.residents?.map((resident) => ({
+              id: resident?.id,
+              name: resident?.name,
+            })) ?? [],
         })),
       )) ?? [];
 
