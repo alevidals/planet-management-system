@@ -101,7 +101,7 @@ export function AddPlanetForm() {
         onOpenChange={onOpenChange}
         className="max-h-[50rem] overflow-y-scroll scrollbar-hide"
       >
-        <ModalContent className="text-white">
+        <ModalContent className="text-foreground">
           {(onClose) => (
             <>
               <ModalHeader className="flex flex-col gap-1">

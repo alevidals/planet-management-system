@@ -200,7 +200,7 @@ export function PlanetCard({ planet }: Props) {
       <Modal
         isOpen={isOpenDeleteModal}
         onOpenChange={onOpenDeleteModalChange}
-        className="max-h-[50rem] overflow-y-scroll scrollbar-hide text-white"
+        className="max-h-[50rem] overflow-y-scroll scrollbar-hide text-foreground"
       >
         <ModalContent>
           {(onClose) => (
@@ -228,7 +228,7 @@ export function PlanetCard({ planet }: Props) {
       <Modal
         isOpen={isOpenEditModal}
         onOpenChange={onOpenEditModalChange}
-        className="max-h-[50rem] overflow-y-scroll scrollbar-hide text-white"
+        className="max-h-[50rem] overflow-y-scroll scrollbar-hide text-foreground"
       >
         <ModalContent>
           {(onClose) => (
