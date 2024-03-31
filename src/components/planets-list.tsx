@@ -2,9 +2,8 @@
 
 import { planetsAtom } from "@/lib/atoms";
 import type { Planet } from "@/lib/types";
-import { useAtomValue, useStore } from "jotai";
+import { useAtom, useStore } from "jotai";
 import Link from "next/link";
-import { useRef } from "react";
 
 type Props = {
   planets: Planet[];
@@ -12,15 +11,17 @@ type Props = {
 
 export function PlanetsList({ planets: initialPlanets }: Props) {
   const store = useStore();
-  const loaded = useRef(false);
+  const [planets, setPlanets] = useAtom(planetsAtom, {
+    store,
+  });
 
-  if (!loaded.current) {
-    loaded.current = true;
-    store.set(planetsAtom, initialPlanets);
+  if (!planets.length) {
+    setPlanets(initialPlanets);
   }
 
-  const planets = useAtomValue(planetsAtom, {
-    store,
+  const formatter = new Intl.ListFormat("en", {
+    style: "long",
+    type: "conjunction",
   });
 
   return (
@@ -31,8 +32,8 @@ export function PlanetsList({ planets: initialPlanets }: Props) {
             <Link href={`/planets/${planet.id}`}>
               <p>{planet.name}</p>
               <p>{planet.diameter}</p>
-              <p>{planet.climates.join(",")}</p>
-              <p>{planet.terrains.join(",")}</p>
+              <p>{formatter.format(planet.climates)}</p>
+              <p>{formatter.format(planet.terrains)}</p>
               <p>{planet.residents.length}</p>
             </Link>
           </li>

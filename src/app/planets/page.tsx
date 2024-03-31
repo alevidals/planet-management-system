@@ -1,3 +1,4 @@
+import { AddPlanetForm } from "@/components/add-planet-form";
 import { PlanetsList } from "@/components/planets-list";
 import { getPlanets } from "@/lib/planets";
 import Link from "next/link";
@@ -13,6 +14,7 @@ export default async function PlanetsPage() {
         Go to home
       </Link>
 
+      <AddPlanetForm />
       <PlanetsList planets={planets} />
     </main>
   );

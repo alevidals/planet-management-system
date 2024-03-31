@@ -5,6 +5,9 @@ export async function getPlanets() {
     (await client
       .query({
         allPlanets: {
+          __args: {
+            first: 5,
+          },
           planets: {
             id: true,
             name: true,
@@ -23,14 +26,14 @@ export async function getPlanets() {
       .then(({ allPlanets }) =>
         allPlanets?.planets?.map((planet) => ({
           id: planet?.id,
-          name: planet?.name,
-          diameter: planet?.diameter,
+          name: planet?.name ?? "-",
+          diameter: planet?.diameter ?? 0,
           climates: planet?.climates?.map((climate) => climate as string) ?? [],
           terrains: planet?.terrains?.map((terrain) => terrain as string) ?? [],
           residents:
             planet?.residentConnection?.residents?.map((resident) => ({
               id: resident?.id,
-              name: resident?.name,
+              name: resident?.name ?? "-",
             })) ?? [],
         })),
       )) ?? [];
