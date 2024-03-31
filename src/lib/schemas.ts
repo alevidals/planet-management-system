@@ -8,21 +8,29 @@ export const insertPlanetSchema = z.object({
     message: "Diameter is required",
   }),
   climates: z
-    .array(z.string().min(1, { message: "Climate is required" }))
+    .array(
+      z.object({
+        climate: z.string().min(1, { message: "Climate is required" }),
+      }),
+    )
     .min(1, {
       message: "At least one climate is required",
     }),
   terrains: z
     .array(
-      z.string().min(1, {
-        message: "Terrain is required",
+      z.object({
+        terrain: z.string().min(1, { message: "Terrain is required" }),
       }),
     )
     .min(1, {
       message: "At least one terrain is required",
     }),
   residents: z
-    .array(z.string().min(1, { message: "Name is required" }))
+    .array(
+      z.object({
+        resident: z.string().min(1, { message: "Name is required" }),
+      }),
+    )
     .optional()
     .nullable(),
 });
@@ -35,14 +43,18 @@ export const updatePlanetSchema = z.object({
     message: "Diameter is required",
   }),
   climates: z
-    .array(z.string().min(1, { message: "Climate is required" }))
+    .array(
+      z.object({
+        climate: z.string().min(1, { message: "Climate is required" }),
+      }),
+    )
     .min(1, {
       message: "At least one climate is required",
     }),
   terrains: z
     .array(
-      z.string().min(1, {
-        message: "Terrain is required",
+      z.object({
+        terrain: z.string().min(1, { message: "Terrain is required" }),
       }),
     )
     .min(1, {

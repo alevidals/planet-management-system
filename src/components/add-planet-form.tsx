@@ -15,10 +15,9 @@ import {
   ModalHeader,
   useDisclosure,
 } from "@nextui-org/react";
-import { IconMinus, IconPlus } from "@tabler/icons-react";
+import { IconPlus } from "@tabler/icons-react";
 import { useSetAtom, useStore } from "jotai";
-import { useState } from "react";
-import { Controller, useForm } from "react-hook-form";
+import { Controller, useFieldArray, useForm } from "react-hook-form";
 
 export function AddPlanetForm() {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -31,42 +30,44 @@ export function AddPlanetForm() {
     defaultValues: {
       name: "",
       diameter: 0,
-      climates: [""],
-      terrains: [""],
+      climates: [
+        {
+          climate: "",
+        },
+      ],
+      terrains: [
+        {
+          terrain: "",
+        },
+      ],
+      residents: [],
     },
   });
 
-  const [numberOfClimateFields, setNumberOfClimateFields] = useState(1);
-  const [numberOfTerrainFields, setNumberOfTerrainFields] = useState(1);
-  const [numberOfResidentsFields, setNumberOfResidentsFields] = useState(0);
-
-  function handleChangeField({
-    type,
-    action,
-  }: {
-    type: "climate" | "terrain" | "resident";
-    action: "add" | "remove";
-  }) {
-    if (type === "climate") {
-      if (action === "add") {
-        setNumberOfClimateFields((prev) => prev + 1);
-      } else if (numberOfClimateFields > 1) {
-        setNumberOfClimateFields((prev) => prev - 1);
-      }
-    } else if (type === "terrain") {
-      if (action === "add") {
-        setNumberOfTerrainFields((prev) => prev + 1);
-      } else if (numberOfTerrainFields > 1) {
-        setNumberOfTerrainFields((prev) => prev - 1);
-      }
-    } else if (type === "resident") {
-      if (action === "add") {
-        setNumberOfResidentsFields((prev) => prev + 1);
-      } else if (numberOfResidentsFields > 0) {
-        setNumberOfResidentsFields((prev) => prev - 1);
-      }
-    }
-  }
+  const {
+    fields: climatesFields,
+    append: appendClimate,
+    remove: removeClimate,
+  } = useFieldArray({
+    control: form.control,
+    name: "climates",
+  });
+  const {
+    fields: terrainsFields,
+    append: appendTerrain,
+    remove: removeTerrain,
+  } = useFieldArray({
+    control: form.control,
+    name: "terrains",
+  });
+  const {
+    fields: residentsFields,
+    append: appendResident,
+    remove: removeResident,
+  } = useFieldArray({
+    control: form.control,
+    name: "residents",
+  });
 
   function handleSubmit(data: InsertPlanet) {
     const planet: Planet = {
@@ -76,7 +77,7 @@ export function AddPlanetForm() {
       climates: data.climates,
       terrains: data.terrains,
       residents:
-        data.residents?.map((resident) => ({
+        data.residents?.map(({ resident }) => ({
           id: randomBytes(12).toString("hex"),
           name: resident,
         })) ?? [],
@@ -136,107 +137,73 @@ export function AddPlanetForm() {
                   )}
                 />
                 <div className="flex gap-x-2 items-center justify-between">
-                  <p className="text-default-500 text-sm">
-                    Add or remove climates
-                  </p>
+                  <p className="text-default-500 text-sm">Add climates</p>
                   <div className="flex gap-x-2 items-center">
                     <Button
                       isIconOnly
                       color="primary"
                       size="sm"
                       className="text-background"
-                      onClick={() =>
-                        handleChangeField({ type: "climate", action: "add" })
-                      }
+                      onClick={() => appendClimate({ climate: "" })}
                     >
                       <IconPlus />
-                    </Button>
-                    <Button
-                      disabled={numberOfClimateFields === 1}
-                      className="disabled:opacity-50 text-background"
-                      isIconOnly
-                      color="danger"
-                      size="sm"
-                      onClick={() =>
-                        handleChangeField({ type: "climate", action: "remove" })
-                      }
-                    >
-                      <IconMinus />
                     </Button>
                   </div>
                 </div>
-                {Array.from({ length: numberOfClimateFields }).map(
-                  (_, index) => (
-                    <Controller
-                      key={`climate-${index}`}
-                      control={form.control}
-                      name={`climates.${index}`}
-                      render={({ field }) => (
-                        <Input
-                          label="Climate"
-                          isInvalid={!!form.formState.errors.climates?.[index]}
-                          errorMessage={
-                            form.formState.errors.climates?.[index]?.message
-                          }
-                          {...field}
-                        />
-                      )}
-                    />
-                  ),
-                )}
+                {climatesFields.map((field, index) => (
+                  <Controller
+                    key={field.id}
+                    control={form.control}
+                    name={`climates.${index}.climate`}
+                    render={({ field }) => (
+                      <Input
+                        label={`Climate ${index + 1}`}
+                        isInvalid={!!form.formState.errors.climates?.[index]}
+                        errorMessage={
+                          form.formState.errors.climates?.[index]?.message
+                        }
+                        isClearable
+                        onClear={() => removeClimate(index)}
+                        {...field}
+                      />
+                    )}
+                  />
+                ))}
                 <div className="flex gap-x-2 items-center justify-between">
-                  <p className="text-default-500 text-sm">
-                    Add or remove terrains
-                  </p>
+                  <p className="text-default-500 text-sm">Add terrains</p>
                   <div className="flex gap-x-2 items-center">
                     <Button
                       isIconOnly
                       color="primary"
-                      className="text-background"
                       size="sm"
-                      onClick={() =>
-                        handleChangeField({ type: "terrain", action: "add" })
-                      }
+                      className="text-background"
+                      onClick={() => appendTerrain({ terrain: "" })}
                     >
                       <IconPlus />
-                    </Button>
-                    <Button
-                      disabled={numberOfTerrainFields === 1}
-                      className="disabled:opacity-50 text-background"
-                      isIconOnly
-                      color="danger"
-                      size="sm"
-                      onClick={() =>
-                        handleChangeField({ type: "terrain", action: "remove" })
-                      }
-                    >
-                      <IconMinus />
                     </Button>
                   </div>
                 </div>
-                {Array.from({ length: numberOfTerrainFields }).map(
-                  (_, index) => (
-                    <Controller
-                      key={`terrain-${index}`}
-                      control={form.control}
-                      name={`terrains.${index}`}
-                      render={({ field }) => (
-                        <Input
-                          label="Terrain"
-                          isInvalid={!!form.formState.errors.terrains?.[index]}
-                          errorMessage={
-                            form.formState.errors.terrains?.[index]?.message
-                          }
-                          {...field}
-                        />
-                      )}
-                    />
-                  ),
-                )}
+                {terrainsFields.map((field, index) => (
+                  <Controller
+                    key={field.id}
+                    control={form.control}
+                    name={`terrains.${index}.terrain`}
+                    render={({ field }) => (
+                      <Input
+                        label={`Terrain ${index + 1}`}
+                        isInvalid={!!form.formState.errors.terrains?.[index]}
+                        errorMessage={
+                          form.formState.errors.terrains?.[index]?.message
+                        }
+                        isClearable
+                        onClear={() => removeTerrain(index)}
+                        {...field}
+                      />
+                    )}
+                  />
+                ))}
                 <div className="flex gap-x-2 items-center justify-between">
-                  <p className="text-default-500 text-sm">
-                    Add or remove residents
-                  </p>
+                  <p className="text-default-500 text-sm">Add residents</p>
                   <div className="flex gap-x-2 items-center">
                     <Button
                       isIconOnly
@@ -244,47 +211,32 @@ export function AddPlanetForm() {
                       size="sm"
                       className="text-background"
                       onClick={() =>
-                        handleChangeField({ type: "resident", action: "add" })
-                      }
-                    >
-                      <IconPlus />
-                    </Button>
-                    <Button
-                      disabled={numberOfResidentsFields === 0}
-                      className="disabled:opacity-50"
-                      isIconOnly
-                      color="danger"
-                      size="sm"
-                      onClick={() =>
-                        handleChangeField({
-                          type: "resident",
-                          action: "remove",
+                        appendResident({
+                          resident: "",
                         })
                       }
                     >
-                      <IconMinus />
+                      <IconPlus />
                     </Button>
                   </div>
                 </div>
-                {Array.from({ length: numberOfResidentsFields }).map(
-                  (_, index) => (
-                    <Controller
-                      key={`resident-${index}`}
-                      control={form.control}
-                      name={`residents.${index}`}
-                      render={({ field }) => (
-                        <Input
-                          label="Resident"
-                          isInvalid={!!form.formState.errors.residents?.[index]}
-                          errorMessage={
-                            form.formState.errors.residents?.[index]?.message
-                          }
-                          {...field}
-                        />
-                      )}
-                    />
-                  ),
-                )}
+                {residentsFields.map((field, index) => (
+                  <Controller
+                    key={field.id}
+                    control={form.control}
+                    name={`residents.${index}.resident`}
+                    render={({ field }) => (
+                      <Input
+                        label={`Resident ${index + 1}`}
+                        isClearable
+                        onClear={() => removeResident(index)}
+                        {...field}
+                        onChange={(event) => field.onChange(event.target.value)}
+                      />
+                    )}
+                  />
+                ))}
+
                 <ModalFooter className="px-0">
                   <Button
                     color="danger"
