@@ -14,13 +14,12 @@ export function Header() {
   const pathname = usePathname();
 
   return (
-    <header className="bg-content1 p-3 rounded-xl mb-4 flex items-center justify-between container mx-auto text-foreground">
+    <header className="border border-default-200 bg-content1 p-3 rounded-xl mb-4 flex items-center justify-between container mx-auto text-foreground">
       <Link className="flex items-center gap-x-2" href="/">
         <IconWorld size={24} className="text-primary" />
         <h1 className="text-xl text-primary">PMS</h1>
       </Link>
       <div className="flex items-center gap-x-4">
-        {/* <Link href="/planets">Planets</Link> */}
         {links.map((link) => (
           <Link
             key={link.href}

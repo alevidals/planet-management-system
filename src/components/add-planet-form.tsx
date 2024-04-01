@@ -92,14 +92,13 @@ export function AddPlanetForm() {
       <Button
         onPress={onOpen}
         className="bg-primary-400 text-background font-semibold"
-        endContent={<IconPlus size="16" />}
       >
         Add Planet
       </Button>
       <Modal
         isOpen={isOpen}
         onOpenChange={onOpenChange}
-        className="max-h-[50rem] overflow-y-scroll scrollbar-hide"
+        className="max-h-[50rem] overflow-y-scroll scrollbar-hide border border-default-200"
       >
         <ModalContent className="text-foreground">
           {(onClose) => (

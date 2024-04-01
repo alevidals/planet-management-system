@@ -5,7 +5,7 @@ export default async function PlanetsPage() {
   const planets = await getPlanets();
 
   return (
-    <main className="min-h-screen container mx-auto">
+    <main className="container mx-auto">
       <PlanetsList planets={planets} />
     </main>
   );

@@ -23,9 +23,11 @@ import {
 import {
   IconBackground,
   IconDots,
+  IconEdit,
   IconFriends,
   IconHaze,
   IconPlus,
+  IconTrash,
 } from "@tabler/icons-react";
 import { useAtom, useStore } from "jotai";
 import Link from "next/link";
@@ -124,7 +126,7 @@ export function PlanetCard({ planet }: Props) {
 
   return (
     <>
-      <Card>
+      <Card className="border border-default-200">
         <CardHeader className="flex gap-3">
           <div className="flex items-center justify-between w-full">
             <Link href={`/planets/${planet.id}`}>
@@ -136,7 +138,7 @@ export function PlanetCard({ planet }: Props) {
                 </p>
               </div>
             </Link>
-            <Dropdown>
+            <Dropdown className="border border-default-200">
               <DropdownTrigger>
                 <Button variant="bordered" isIconOnly>
                   <IconDots />
@@ -146,13 +148,20 @@ export function PlanetCard({ planet }: Props) {
                 aria-label="Action event example"
                 onAction={handleDropdownAction}
               >
-                <DropdownItem key="edit" className="text-foreground">
+                <DropdownItem
+                  key="edit"
+                  className="text-foreground"
+                  startContent={<IconEdit />}
+                  description="Edit the file"
+                >
                   Edit file
                 </DropdownItem>
                 <DropdownItem
                   key="delete"
                   className="text-danger"
                   color="danger"
+                  description="Permanently delete the file"
+                  startContent={<IconTrash />}
                 >
                   Delete file
                 </DropdownItem>
@@ -200,7 +209,7 @@ export function PlanetCard({ planet }: Props) {
       <Modal
         isOpen={isOpenDeleteModal}
         onOpenChange={onOpenDeleteModalChange}
-        className="max-h-[50rem] overflow-y-scroll scrollbar-hide text-foreground"
+        className="max-h-[50rem] border border-default-200 overflow-y-scroll scrollbar-hide text-foreground"
       >
         <ModalContent>
           {(onClose) => (
@@ -228,7 +237,7 @@ export function PlanetCard({ planet }: Props) {
       <Modal
         isOpen={isOpenEditModal}
         onOpenChange={onOpenEditModalChange}
-        className="max-h-[50rem] overflow-y-scroll scrollbar-hide text-foreground"
+        className="max-h-[50rem] border border-default-200 overflow-y-scroll scrollbar-hide text-foreground"
       >
         <ModalContent>
           {(onClose) => (

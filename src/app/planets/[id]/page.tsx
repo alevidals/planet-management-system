@@ -1,9 +1,6 @@
 "use client";
 
 import { planetsAtom } from "@/lib/atoms";
-import { updatePlanetSchema } from "@/lib/schemas";
-import type { UpdatePlanet } from "@/lib/types";
-import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Table,
   TableBody,
@@ -12,9 +9,8 @@ import {
   TableHeader,
   TableRow,
 } from "@nextui-org/react";
-import { useAtom, useStore } from "jotai";
-import { useRouter } from "next/navigation";
-import { useForm } from "react-hook-form";
+import { useAtomValue, useStore } from "jotai";
+import { notFound, useRouter } from "next/navigation";
 
 type Props = {
   params: { id: string };
@@ -22,7 +18,7 @@ type Props = {
 
 export default function PlanetsPage({ params }: Props) {
   const router = useRouter();
-  const [planets, setPlanets] = useAtom(planetsAtom, {
+  const planets = useAtomValue(planetsAtom, {
     store: useStore(),
   });
 
@@ -31,20 +27,8 @@ export default function PlanetsPage({ params }: Props) {
   );
 
   if (!planet) {
-    router.replace("/planets");
-    return;
+    notFound();
   }
-
-  const form = useForm<UpdatePlanet>({
-    resolver: zodResolver(updatePlanetSchema),
-    defaultValues: {
-      name: planet.name,
-      diameter: planet.diameter,
-      climates: planet.climates,
-      terrains: planet.terrains,
-      residents: planet.residents,
-    },
-  });
 
   const formatter = new Intl.ListFormat("en", {
     style: "long",
@@ -62,7 +46,7 @@ export default function PlanetsPage({ params }: Props) {
   );
 
   return (
-    <main className="min-h-screen container mx-auto text-foreground">
+    <main className="container mx-auto text-foreground">
       <h1 className="text-3xl font-bold text-primary">{planet.name}</h1>
 
       <h2 className="text-xl font-bold text-primary mt-4">Diameter</h2>
