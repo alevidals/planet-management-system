@@ -19,7 +19,7 @@ import { IconPlus } from "@tabler/icons-react";
 import { useSetAtom, useStore } from "jotai";
 import { Controller, useFieldArray, useForm } from "react-hook-form";
 
-export function AddPlanetForm() {
+export function AddPlanetButton() {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   const setPlanets = useSetAtom(planetsAtom, {
@@ -88,7 +88,7 @@ export function AddPlanetForm() {
   }
 
   return (
-    <div>
+    <>
       <Button
         onPress={onOpen}
         className="bg-primary-400 text-background font-semibold"
@@ -258,6 +258,6 @@ export function AddPlanetForm() {
           )}
         </ModalContent>
       </Modal>
-    </div>
+    </>
   );
 }

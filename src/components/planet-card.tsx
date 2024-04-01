@@ -132,13 +132,12 @@ export function PlanetCard({ planet }: Props) {
             <Link href={`/planets/${planet.id}`}>
               <div className="flex flex-col">
                 <p>{planet.name}</p>
-                <p>{planet.id}</p>
                 <p className="text-small text-default-500">
                   {numberFormatter.format(planet.diameter)} Km
                 </p>
               </div>
             </Link>
-            <Dropdown className="border border-default-200">
+            <Dropdown className="border border-default-200 text-foreground">
               <DropdownTrigger>
                 <Button variant="bordered" isIconOnly>
                   <IconDots />
@@ -150,7 +149,6 @@ export function PlanetCard({ planet }: Props) {
               >
                 <DropdownItem
                   key="edit"
-                  className="text-foreground"
                   startContent={<IconEdit />}
                   description="Edit the file"
                 >

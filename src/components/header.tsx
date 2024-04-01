@@ -1,7 +1,8 @@
 "use client";
 
-import { AddPlanetForm } from "@/components/add-planet-form";
-import { IconWorld } from "@tabler/icons-react";
+import { AddPlanetButton } from "@/components/add-planet-button";
+import { HeaderDropdown } from "@/components/header-dropdown";
+import { IconPlanet } from "@tabler/icons-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -16,10 +17,10 @@ export function Header() {
   return (
     <header className="border border-default-200 bg-content1 p-3 rounded-xl mb-4 flex items-center justify-between container mx-auto text-foreground">
       <Link className="flex items-center gap-x-2" href="/">
-        <IconWorld size={24} className="text-primary" />
+        <IconPlanet size={24} className="text-primary" />
         <h1 className="text-xl text-primary">PMS</h1>
       </Link>
-      <div className="flex items-center gap-x-4">
+      <div className="items-center gap-x-4 hidden md:flex">
         {links.map((link) => (
           <Link
             key={link.href}
@@ -33,8 +34,9 @@ export function Header() {
             {link.label}
           </Link>
         ))}
-        <AddPlanetForm />
+        <AddPlanetButton />
       </div>
+      <HeaderDropdown />
     </header>
   );
 }
