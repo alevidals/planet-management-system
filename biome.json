@@ -13,6 +13,9 @@
       },
       "style": {
         "useNodejsImportProtocol": "off"
+      },
+      "a11y": {
+        "useButtonType": "off"
       }
     }
   },

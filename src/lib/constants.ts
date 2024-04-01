@@ -20,3 +20,5 @@ export const ORDER_FIELDS = [
     label: "Residents",
   },
 ];
+
+export const ITEMS_PER_PAGE = 10;

@@ -6,7 +6,7 @@ export async function getPlanets() {
       .query({
         allPlanets: {
           __args: {
-            first: 2,
+            first: 15,
           },
           planets: {
             id: true,
