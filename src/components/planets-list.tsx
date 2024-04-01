@@ -2,6 +2,7 @@
 
 import { PlanetCard } from "@/components/planet-card";
 import { planetsAtom } from "@/lib/atoms";
+import { ORDER_FIELDS } from "@/lib/constants";
 import type { Planet } from "@/lib/types";
 import { Input, Select, SelectItem } from "@nextui-org/react";
 import { IconSearch } from "@tabler/icons-react";
@@ -21,29 +22,6 @@ type OrderByField =
   | "residents";
 
 type Order = "asc" | "desc";
-
-const orderFields = [
-  {
-    value: "name",
-    label: "Name",
-  },
-  {
-    value: "diameter",
-    label: "Diameter",
-  },
-  {
-    value: "climates",
-    label: "Climate",
-  },
-  {
-    value: "terrains",
-    label: "Terrain",
-  },
-  {
-    value: "residents",
-    label: "Residents",
-  },
-];
 
 export function PlanetsList({ planets: initialPlanets }: Props) {
   const store = useStore();
@@ -107,7 +85,8 @@ export function PlanetsList({ planets: initialPlanets }: Props) {
     <>
       <div className="flex flex-col lg:flex-row gap-4 mb-4">
         <Input
-          className="w-full lg:max-w-xs"
+          className="w-full lg:max-w-xs text-foreground"
+          variant="faded"
           label="Search planets by name, climate or terrain"
           startContent={<IconSearch size={20} className="text-primary" />}
           value={search}
@@ -115,11 +94,12 @@ export function PlanetsList({ planets: initialPlanets }: Props) {
         />
         <Select
           label="Select field to filter"
+          variant="faded"
           className="text-foreground w-full lg:max-w-xs"
           selectedKeys={[orderBy]}
           onChange={(event) => setOrderBy(event.target.value as OrderByField)}
         >
-          {orderFields.map((field) => (
+          {ORDER_FIELDS.map((field) => (
             <SelectItem
               key={field.value}
               value={field.value}
@@ -131,6 +111,7 @@ export function PlanetsList({ planets: initialPlanets }: Props) {
         </Select>
         <Select
           label="Select order"
+          variant="faded"
           className="text-foreground w-full lg:max-w-xs"
           selectedKeys={[order]}
           onChange={(event) => setOrder(event.target.value as Order)}

@@ -17,7 +17,7 @@ export function Header() {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   return (
-    <header className="border border-default-200 bg-content1 p-3 rounded-xl mb-4 flex items-center justify-between container mx-auto text-foreground">
+    <header className="border border-default-200 bg-default-100 p-3 rounded-xl mb-4 flex items-center justify-between container mx-auto text-foreground">
       <Link className="flex items-center gap-x-2" href="/">
         <IconPlanet size={24} className="text-primary" />
         <h1 className="text-xl text-primary">PMS</h1>

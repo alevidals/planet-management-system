@@ -126,7 +126,7 @@ export function PlanetCard({ planet }: Props) {
 
   return (
     <>
-      <Card className="border border-default-200">
+      <Card className="border border-default-200 bg-default-100">
         <CardHeader className="flex gap-3">
           <div className="flex items-center justify-between w-full">
             <Link href={`/planets/${planet.id}`}>
