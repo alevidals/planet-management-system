@@ -1,7 +1,8 @@
 "use client";
 
-import { AddPlanetButton } from "@/components/add-planet-button";
+import { AddPlanetForm } from "@/components/add-planet-form";
 import { HeaderDropdown } from "@/components/header-dropdown";
+import { Button, useDisclosure } from "@nextui-org/react";
 import { IconPlanet } from "@tabler/icons-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -13,6 +14,7 @@ const links = [
 
 export function Header() {
   const pathname = usePathname();
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   return (
     <header className="border border-default-200 bg-content1 p-3 rounded-xl mb-4 flex items-center justify-between container mx-auto text-foreground">
@@ -34,9 +36,15 @@ export function Header() {
             {link.label}
           </Link>
         ))}
-        <AddPlanetButton />
+        <Button
+          className="bg-primary-400 text-background font-semibold"
+          onPress={onOpen}
+        >
+          Add planet
+        </Button>
       </div>
       <HeaderDropdown />
+      <AddPlanetForm isOpen={isOpen} onOpenChange={onOpenChange} />
     </header>
   );
 }

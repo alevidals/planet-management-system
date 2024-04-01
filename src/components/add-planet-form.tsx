@@ -13,14 +13,19 @@ import {
   ModalContent,
   ModalFooter,
   ModalHeader,
-  useDisclosure,
 } from "@nextui-org/react";
 import { IconPlus } from "@tabler/icons-react";
 import { useSetAtom, useStore } from "jotai";
 import { Controller, useFieldArray, useForm } from "react-hook-form";
 
-export function AddPlanetButton() {
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+type Props = {
+  className?: string;
+  isOpen: boolean;
+  onOpenChange: () => void;
+};
+
+export function AddPlanetForm(props: Props) {
+  const { isOpen, onOpenChange } = props;
 
   const setPlanets = useSetAtom(planetsAtom, {
     store: useStore(),
@@ -89,16 +94,10 @@ export function AddPlanetButton() {
 
   return (
     <>
-      <Button
-        onPress={onOpen}
-        className="bg-primary-400 text-background font-semibold"
-      >
-        Add Planet
-      </Button>
       <Modal
         isOpen={isOpen}
         onOpenChange={onOpenChange}
-        className="max-h-[50rem] overflow-y-scroll scrollbar-hide border border-default-200"
+        className="max-h-[calc(100dvh-3rem)] md:max-h-[50rem] overflow-y-scroll scrollbar-hide border border-default-200"
       >
         <ModalContent className="text-foreground">
           {(onClose) => (
