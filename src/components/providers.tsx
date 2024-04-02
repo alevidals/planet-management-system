@@ -1,6 +1,5 @@
 "use client";
 
-import { NextUIProvider } from "@nextui-org/react";
 import { Provider, createStore } from "jotai";
 import { useState } from "react";
 
@@ -12,9 +11,7 @@ export function Providers({
 
   return (
     <div className={className}>
-      <Provider store={store}>
-        <NextUIProvider>{children}</NextUIProvider>
-      </Provider>
+      <Provider store={store}>{children}</Provider>
     </div>
   );
 }

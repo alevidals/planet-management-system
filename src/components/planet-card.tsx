@@ -1,25 +1,48 @@
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import {
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Separator } from "@/components/ui/separator";
 import { planetsAtom } from "@/lib/atoms";
 import { updatePlanetSchema } from "@/lib/schemas";
 import type { Planet, UpdatePlanet } from "@/lib/types";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  Button,
-  Card,
-  CardBody,
-  CardHeader,
-  Divider,
-  Dropdown,
-  DropdownItem,
-  DropdownMenu,
-  DropdownTrigger,
-  Input,
-  Modal,
-  ModalBody,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  useDisclosure,
-} from "@nextui-org/react";
 import {
   IconBackground,
   IconDots,
@@ -31,21 +54,20 @@ import {
 } from "@tabler/icons-react";
 import { useAtom, useStore } from "jotai";
 import Link from "next/link";
-import type { Key } from "react";
-import { Controller, useFieldArray, useForm } from "react-hook-form";
+import { useState } from "react";
+import { useFieldArray, useForm } from "react-hook-form";
 
 type Props = {
   planet: Planet;
 };
 
 export function PlanetCard({ planet }: Props) {
-  const { isOpen: isOpenDeleteModal, onOpenChange: onOpenDeleteModalChange } =
-    useDisclosure();
-  const { isOpen: isOpenEditModal, onOpenChange: onOpenEditModalChange } =
-    useDisclosure();
+  const [isOpenDeleteDialog, setIsOpenDeleteDialog] = useState(false);
+  const [isOpenEditDialog, setIsOpenEditDialog] = useState(false);
   const [planets, setPlanets] = useAtom(planetsAtom, {
     store: useStore(),
   });
+
   const form = useForm<UpdatePlanet>({
     resolver: zodResolver(updatePlanetSchema),
     defaultValues: {
@@ -90,7 +112,6 @@ export function PlanetCard({ planet }: Props) {
 
   function handleDeletePlanet() {
     setPlanets((prev) => prev.filter((p) => p.id !== planet.id));
-    onOpenDeleteModalChange();
   }
 
   function handleEditPlanet(data: UpdatePlanet) {
@@ -102,78 +123,73 @@ export function PlanetCard({ planet }: Props) {
             residents: data.residents.map((resident) => ({
               id: resident.id || Math.random().toString(),
               name: resident.name,
+              birthYear: undefined,
+              eyeColor: undefined,
+              hairColor: undefined,
+              skinColor: undefined,
+              height: undefined,
+              mass: undefined,
+              gender: undefined,
             })),
           }
         : p,
     );
 
     setPlanets(newPlanets);
-    onOpenEditModalChange();
-  }
-
-  function handleDropdownAction(key: Key) {
-    switch (key) {
-      case "edit":
-        onOpenEditModalChange();
-        break;
-      case "delete":
-        onOpenDeleteModalChange();
-        break;
-      default:
-        break;
-    }
+    setIsOpenEditDialog(false);
   }
 
   return (
     <>
-      <Card className="border border-default-200 bg-default-100 hover:border-primary">
-        <CardHeader className="flex gap-3">
-          <div className="flex items-center justify-between w-full">
-            <Link href={`/planets/${planet.id}`}>
-              <div className="flex flex-col">
-                <p>{planet.name}</p>
-                <p className="text-small text-default-500">
-                  {numberFormatter.format(planet.diameter)} Km
-                </p>
-              </div>
-            </Link>
-            <Dropdown className="border border-default-200 text-foreground">
-              <DropdownTrigger>
-                <Button variant="bordered" isIconOnly>
-                  <IconDots />
-                </Button>
-              </DropdownTrigger>
-              <DropdownMenu
-                aria-label="Action event example"
-                onAction={handleDropdownAction}
+      <Card className="hover:border-primary">
+        <CardHeader className="flex flex-row justify-between items-center">
+          <Link href={`/planets/${planet.id}`}>
+            <CardTitle>{planet.name}</CardTitle>
+            <CardDescription>
+              {numberFormatter.format(planet.diameter)} km
+            </CardDescription>
+          </Link>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button size="icon" variant="outline">
+                <IconDots />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              <DropdownMenuItem
+                onClick={() => setIsOpenEditDialog(true)}
+                className="flex items-center gap-x-2"
               >
-                <DropdownItem
-                  key="edit"
-                  startContent={<IconEdit />}
-                  description="Edit the file"
-                >
-                  Edit file
-                </DropdownItem>
-                <DropdownItem
-                  key="delete"
-                  className="text-danger"
-                  color="danger"
-                  description="Permanently delete the file"
-                  startContent={<IconTrash />}
-                >
-                  Delete file
-                </DropdownItem>
-              </DropdownMenu>
-            </Dropdown>
-          </div>
+                <IconEdit size={20} />
+                <div className="flex flex-col">
+                  <span className="text-base">Edit</span>
+                  <span className="text-xs text-muted-foreground">
+                    Edit planet
+                  </span>
+                </div>
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={() => setIsOpenDeleteDialog(true)}
+                className="flex items-center gap-x-2"
+              >
+                <IconTrash size={20} className="text-red-500" />
+                <div className="flex flex-col">
+                  <span className="text-base text-red-500">Delete</span>
+                  <span className="text-xs text-muted-foreground">
+                    Delete the planet permanently
+                  </span>
+                </div>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </CardHeader>
-        <Divider />
+        <Separator />
         <Link href={`/planets/${planet.id}`}>
-          <CardBody className="flex flex-col gap-y-2">
+          <CardContent className="flex flex-col gap-y-2 p-6">
             <div className="flex gap-x-4 items-center">
               <IconHaze size={24} className="text-primary" />
               <div>
-                <p className="text-sm text-default-500">Climates</p>
+                <p className="text-sm">Climates</p>
                 <p className="text-md">
                   {listFormatter.format(
                     planet.climates.flatMap((climate) => climate.climate),
@@ -181,10 +197,10 @@ export function PlanetCard({ planet }: Props) {
                 </p>
               </div>
             </div>
-            <div className="flex gap-x-4 items-center">
+            <div className="flex gap-x-4 items-center jus">
               <IconBackground size={24} className="text-primary" />
               <div>
-                <p className="text-sm text-default-500">Terrains</p>
+                <p className="text-sm">Terrains</p>
                 <p className="text-md line-clamp-1">
                   {listFormatter.format(
                     planet.terrains.flatMap((terrain) => terrain.terrain),
@@ -195,208 +211,210 @@ export function PlanetCard({ planet }: Props) {
             <div className="flex gap-x-4 items-center">
               <IconFriends size={24} className="text-primary" />
               <div>
-                <p className="text-sm text-default-500">Residents</p>
+                <p className="text-sm">Residents</p>
                 <p className="text-md">
                   {numberFormatter.format(planet.residents.length)}
                 </p>
               </div>
             </div>
-          </CardBody>
+          </CardContent>
         </Link>
       </Card>
-      <Modal
-        isOpen={isOpenDeleteModal}
-        onOpenChange={onOpenDeleteModalChange}
-        className="max-h-[calc(100dvh-3rem)] md:max-h-[50rem] border border-default-200 overflow-y-scroll scrollbar-hide text-foreground"
+      <AlertDialog
+        open={isOpenDeleteDialog}
+        onOpenChange={setIsOpenDeleteDialog}
       >
-        <ModalContent>
-          {(onClose) => (
-            <>
-              <ModalHeader className="block">
-                Are you sure you want to eliminate the planet{" "}
-                <span className="text-primary font-bold">{planet.name}</span>?
-              </ModalHeader>
-              <ModalFooter>
-                <Button color="danger" variant="light" onPress={onClose}>
-                  Close
-                </Button>
-                <Button
-                  color="primary"
-                  onPress={handleDeletePlanet}
-                  className="text-background"
-                >
-                  Action
-                </Button>
-              </ModalFooter>
-            </>
-          )}
-        </ModalContent>
-      </Modal>
-      <Modal
-        isOpen={isOpenEditModal}
-        onOpenChange={onOpenEditModalChange}
-        className="max-h-[calc(100dvh-3rem)] md:max-h-[50rem] border border-default-200 overflow-y-scroll scrollbar-hide text-foreground"
-      >
-        <ModalContent>
-          {(onClose) => (
-            <>
-              <ModalHeader className="block">
-                Editing planet{" "}
-                <span className="text-primary font-bold">{planet.name}</span>
-              </ModalHeader>
-              <ModalBody
-                as="form"
-                onSubmit={form.handleSubmit(handleEditPlanet)}
-              >
-                <Controller
-                  name="name"
-                  control={form.control}
-                  render={({ field }) => (
-                    <Input
-                      label="Name"
-                      isInvalid={!!form.formState.errors.name}
-                      errorMessage={form.formState.errors.name?.message}
-                      {...field}
-                    />
-                  )}
-                />
-                <Controller
-                  name="diameter"
-                  control={form.control}
-                  render={({ field }) => (
-                    <Input
-                      label="Diameter"
-                      type="number"
-                      isInvalid={!!form.formState.errors.diameter}
-                      errorMessage={form.formState.errors.diameter?.message}
-                      {...field}
-                      onChange={(event) =>
-                        field.onChange(Number(event.target.value))
-                      }
-                    />
-                  )}
-                />
-                <div className="flex gap-x-2 items-center justify-between">
-                  <p className="text-default-500 text-sm">Add climates</p>
-                  <div className="flex gap-x-2 items-center">
-                    <Button
-                      isIconOnly
-                      color="primary"
-                      size="sm"
-                      className="text-background"
-                      onClick={() => appendClimate({ climate: "" })}
-                    >
-                      <IconPlus />
-                    </Button>
-                  </div>
-                </div>
-                {climatesFields.map((field, index) => (
-                  <Controller
-                    key={field.id}
-                    control={form.control}
-                    name={`climates.${index}.climate`}
-                    render={({ field }) => (
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>
+              Are you absolutely sure to delete the planet{" "}
+              <span className="text-primary font-bold">{planet.name}</span>?
+            </AlertDialogTitle>
+            <AlertDialogDescription>
+              This action cannot be undone. This will permanently delete the
+              planet.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction onClick={handleDeletePlanet}>
+              Delete
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+      <Dialog open={isOpenEditDialog} onOpenChange={setIsOpenEditDialog}>
+        <DialogContent className="max-h-[50rem] overflow-y-scroll scrollbar-hide">
+          <DialogHeader>
+            <DialogTitle>
+              Editing planet{" "}
+              <span className="text-primary font-bold">{planet.name}</span>
+            </DialogTitle>
+          </DialogHeader>
+          <Form {...form}>
+            <form
+              className="flex flex-col gap-y-4"
+              onSubmit={form.handleSubmit(handleEditPlanet)}
+            >
+              <FormField
+                control={form.control}
+                name="name"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Name</FormLabel>
+                    <FormControl>
+                      <Input {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="diameter"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Diameter</FormLabel>
+                    <FormControl>
                       <Input
-                        label={`Climate ${index + 1}`}
-                        isInvalid={!!form.formState.errors.climates?.[index]}
-                        errorMessage={
-                          form.formState.errors.climates?.[index]?.message
-                        }
-                        isClearable
-                        onClear={() => removeClimate(index)}
+                        type="number"
                         {...field}
-                      />
-                    )}
-                  />
-                ))}
-                <div className="flex gap-x-2 items-center justify-between">
-                  <p className="text-default-500 text-sm">Add terrains</p>
-                  <div className="flex gap-x-2 items-center">
-                    <Button
-                      isIconOnly
-                      color="primary"
-                      size="sm"
-                      className="text-background"
-                      onClick={() => appendTerrain({ terrain: "" })}
-                    >
-                      <IconPlus />
-                    </Button>
-                  </div>
-                </div>
-                {terrainFields.map((field, index) => (
-                  <Controller
-                    key={field.id}
-                    control={form.control}
-                    name={`terrains.${index}.terrain`}
-                    render={({ field }) => (
-                      <Input
-                        label={`Terrain ${index + 1}`}
-                        isInvalid={!!form.formState.errors.terrains?.[index]}
-                        errorMessage={
-                          form.formState.errors.terrains?.[index]?.message
+                        onChange={(event) =>
+                          field.onChange(Number(event.target.value))
                         }
-                        isClearable
-                        onClear={() => removeTerrain(index)}
-                        {...field}
                       />
-                    )}
-                  />
-                ))}
-                <div className="flex gap-x-2 items-center justify-between">
-                  <p className="text-default-500 text-sm">Add residents</p>
-                  <div className="flex gap-x-2 items-center">
-                    <Button
-                      isIconOnly
-                      color="primary"
-                      size="sm"
-                      className="text-background"
-                      onClick={() => appendResident({ name: "" })}
-                    >
-                      <IconPlus />
-                    </Button>
-                  </div>
-                </div>
-                {residentFields.map((field, index) => (
-                  <Controller
-                    key={field.id}
-                    control={form.control}
-                    name={`residents.${index}.name`}
-                    render={({ field }) => (
-                      <Input
-                        label={`Resident ${index + 1}`}
-                        isInvalid={!!form.formState.errors.residents?.[index]}
-                        errorMessage={
-                          form.formState.errors.residents?.[index]?.message
-                        }
-                        isClearable
-                        onClear={() => removeResident(index)}
-                        {...field}
-                      />
-                    )}
-                  />
-                ))}
-                <ModalFooter className="px-0">
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <div>
+                <div className="flex justify-between items-center">
+                  <span className="text-sm font-medium leading-none">
+                    Climates
+                  </span>
                   <Button
-                    color="danger"
-                    variant="light"
-                    onPress={onClose}
-                    type="button"
+                    size="icon"
+                    variant="ghost"
+                    onClick={() => appendClimate({ climate: "" })}
                   >
-                    Cancel
+                    <IconPlus size="16" />
                   </Button>
+                </div>
+                <div className="flex flex-col gap-y-2">
+                  {climatesFields.map((field, index) => (
+                    <div key={field.id} className="flex ">
+                      <FormField
+                        control={form.control}
+                        name={`climates.${index}.climate`}
+                        render={({ field }) => (
+                          <FormItem className="w-full">
+                            <FormControl>
+                              <Input {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      <Button
+                        size="icon"
+                        variant="ghost"
+                        className="text-destructive"
+                        onClick={() => removeClimate(index)}
+                      >
+                        <IconTrash size="20" />
+                      </Button>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div>
+                <div className="flex justify-between items-center mb-2">
+                  <span className="text-sm font-medium leading-none">
+                    Terrains
+                  </span>
                   <Button
-                    color="primary"
-                    type="submit"
-                    className="text-background"
+                    size="icon"
+                    variant="ghost"
+                    onClick={() => appendTerrain({ terrain: "" })}
                   >
-                    Save changes
+                    <IconPlus size="16" />
                   </Button>
-                </ModalFooter>
-              </ModalBody>
-            </>
-          )}
-        </ModalContent>
-      </Modal>
+                </div>
+                <div className="flex flex-col gap-y-2">
+                  {terrainFields.map((field, index) => (
+                    <div key={field.id} className="flex ">
+                      <FormField
+                        control={form.control}
+                        name={`terrains.${index}.terrain`}
+                        render={({ field }) => (
+                          <FormItem className="w-full">
+                            <FormControl>
+                              <Input {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      <Button
+                        size="icon"
+                        variant="ghost"
+                        className="text-destructive"
+                        onClick={() => removeTerrain(index)}
+                      >
+                        <IconTrash size="20" />
+                      </Button>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div>
+                <div className="flex justify-between items-center mb-2">
+                  <span className="text-sm font-medium leading-none">
+                    Residents
+                  </span>
+                  <Button
+                    size="icon"
+                    variant="ghost"
+                    onClick={() => appendResident({ name: "" })}
+                  >
+                    <IconPlus size="16" />
+                  </Button>
+                </div>
+                <div className="flex flex-col gap-y-2">
+                  {residentFields.map((field, index) => (
+                    <div key={field.id} className="flex ">
+                      <FormField
+                        control={form.control}
+                        name={`residents.${index}.name`}
+                        render={({ field }) => (
+                          <FormItem className="w-full">
+                            <FormControl>
+                              <Input {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      <Button
+                        size="icon"
+                        variant="ghost"
+                        className="text-destructive"
+                        onClick={() => removeResident(index)}
+                      >
+                        <IconTrash size="20" />
+                      </Button>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <DialogFooter>
+                <Button type="submit">Save changes</Button>
+              </DialogFooter>
+            </form>
+          </Form>
+        </DialogContent>
+      </Dialog>
     </>
   );
 }

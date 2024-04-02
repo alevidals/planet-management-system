@@ -5,9 +5,6 @@ export async function getPlanets() {
     (await client
       .query({
         allPlanets: {
-          __args: {
-            first: 15,
-          },
           planets: {
             id: true,
             name: true,
@@ -18,6 +15,13 @@ export async function getPlanets() {
               residents: {
                 id: true,
                 name: true,
+                birthYear: true,
+                eyeColor: true,
+                hairColor: true,
+                skinColor: true,
+                height: true,
+                mass: true,
+                gender: true,
               },
             },
           },
@@ -40,6 +44,13 @@ export async function getPlanets() {
             planet?.residentConnection?.residents?.map((resident) => ({
               id: resident?.id,
               name: resident?.name ?? "-",
+              birthYear: resident?.birthYear ?? undefined,
+              eyeColor: resident?.eyeColor ?? undefined,
+              hairColor: resident?.hairColor ?? undefined,
+              skinColor: resident?.skinColor ?? undefined,
+              height: resident?.height ?? undefined,
+              mass: resident?.mass ?? undefined,
+              gender: resident?.gender ?? undefined,
             })) ?? [],
         })),
       )) ?? [];

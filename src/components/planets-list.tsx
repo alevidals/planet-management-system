@@ -1,11 +1,20 @@
 "use client";
 
+import { Pagination } from "@/components/pagination";
 import { PlanetCard } from "@/components/planet-card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { planetsAtom } from "@/lib/atoms";
 import { ITEMS_PER_PAGE, ORDER_FIELDS } from "@/lib/constants";
 import type { Planet } from "@/lib/types";
-import { Input, Pagination, Select, SelectItem } from "@nextui-org/react";
-import { IconSearch } from "@tabler/icons-react";
+import { IconEraser } from "@tabler/icons-react";
 import { useAtom, useStore } from "jotai";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
@@ -90,6 +99,8 @@ export function PlanetsList({ planets: initialPlanets }: Props) {
     filteredAndSortedPlanets.length / ITEMS_PER_PAGE,
   );
 
+  const totalItems = filteredAndSortedPlanets.length;
+
   filteredAndSortedPlanets = filteredAndSortedPlanets.slice(
     (Number(page) - 1) * ITEMS_PER_PAGE,
     Number(page) * ITEMS_PER_PAGE,
@@ -99,61 +110,70 @@ export function PlanetsList({ planets: initialPlanets }: Props) {
     <>
       <div className="flex flex-col lg:flex-row gap-4 mb-4">
         <Input
-          className="w-full lg:max-w-xs text-foreground"
-          variant="faded"
-          label="Search planets by name, climate or terrain"
-          startContent={<IconSearch size={20} className="text-primary" />}
+          size={30}
+          className="h-12"
+          placeholder="Search planets"
           value={search}
-          onValueChange={(value) => {
+          onChange={(event) => {
             const params = new URLSearchParams(searchParams);
-            params.set("search", value);
+            params.set("search", event.target.value);
 
             router.replace(`${pathname}?${params.toString()}`);
           }}
         />
         <Select
-          label="Select field to filter"
-          variant="faded"
-          className="text-foreground w-full lg:max-w-xs"
-          selectedKeys={[orderBy]}
-          onChange={(event) => {
+          value={orderBy}
+          onValueChange={(key) => {
             const params = new URLSearchParams(searchParams);
-            params.set("orderBy", event.target.value);
+            params.set("orderBy", key);
 
             router.replace(`${pathname}?${params.toString()}`);
           }}
         >
-          {ORDER_FIELDS.map((field) => (
-            <SelectItem
-              key={field.value}
-              value={field.value}
-              className="text-foreground"
-            >
-              {field.label}
-            </SelectItem>
-          ))}
+          <SelectTrigger className="h-12">
+            <SelectValue placeholder="Sort by" />
+          </SelectTrigger>
+          <SelectContent>
+            {ORDER_FIELDS.map((field) => (
+              <SelectItem value={field.value} key={field.value}>
+                {field.label}
+              </SelectItem>
+            ))}
+          </SelectContent>
         </Select>
         <Select
-          label="Select order"
-          variant="faded"
-          className="text-foreground w-full lg:max-w-xs"
-          isDisabled={!orderBy}
-          disallowEmptySelection={true}
-          selectedKeys={[order]}
-          onChange={(event) => {
+          value={order}
+          disabled={!orderBy}
+          onValueChange={(key) => {
             const params = new URLSearchParams(searchParams);
-            params.set("order", event.target.value);
+            params.set("order", key);
 
             router.replace(`${pathname}?${params.toString()}`);
           }}
         >
-          <SelectItem key="asc" value="asc" className="text-foreground">
-            Asc
-          </SelectItem>
-          <SelectItem key="desc" value="desc" className="text-foreground">
-            Desc
-          </SelectItem>
+          <SelectTrigger className="h-12">
+            <SelectValue placeholder="Order" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="asc">Ascending</SelectItem>
+            <SelectItem value="desc">Descending</SelectItem>
+          </SelectContent>
         </Select>
+        <Button
+          size="icon"
+          variant="destructive"
+          className="shrink-0 h-12 w-12"
+          onClick={() => {
+            const params = new URLSearchParams(searchParams);
+            params.delete("search");
+            params.delete("orderBy");
+            params.delete("order");
+
+            router.replace(`${pathname}?${params.toString()}`);
+          }}
+        >
+          <IconEraser />
+        </Button>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
         {filteredAndSortedPlanets.map((planet) => (
@@ -161,17 +181,7 @@ export function PlanetsList({ planets: initialPlanets }: Props) {
         ))}
       </div>
       {totalPages > 1 && filteredAndSortedPlanets.length > 0 ? (
-        <Pagination
-          total={totalPages}
-          page={Number(page)}
-          onChange={(page) => {
-            const params = new URLSearchParams(searchParams);
-            params.set("page", String(page));
-
-            router.replace(`${pathname}?${params.toString()}`);
-          }}
-          className="w-fit mx-auto"
-        />
+        <Pagination currentPage={Number(page)} totalItems={totalItems} />
       ) : null}
     </>
   ) : (

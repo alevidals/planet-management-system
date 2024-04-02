@@ -1,3 +1,8 @@
+export const LINKS = [
+  { href: "/", label: "Home" },
+  { href: "/planets", label: "Planets" },
+];
+
 export const ORDER_FIELDS = [
   {
     value: "name",
