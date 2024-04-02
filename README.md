@@ -1,8 +1,12 @@
-# PMS
+<img src="./src/app/favicon.ico" alt="drawing" width="100"/>
 
-## To start
 
-### Prerequisites
+
+
+
+# To start
+
+## Prerequisites
 
 - Node > 20 version. You can use [NVM](https://github.com/nvm-sh/nvm?tab=readme-ov-file#installing-and-updating) to setup a node version manager
 
@@ -22,7 +26,7 @@
     npm install -g yarn
     ```
 
-### Installation  
+## Installation  
 1. Clone the repository
     ```sh
     git clone https://github.com/alevidals/pms-codetest.git
