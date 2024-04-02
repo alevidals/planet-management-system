@@ -1,4 +1,3 @@
-import { Header } from "@/components/header";
 import { Providers } from "@/components/providers";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
@@ -19,11 +18,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.className} dark`}>
-        <div className="bg-background p-4 min-h-dvh flex flex-col container">
-          <Providers className="flex-1">
-            <Header />
-            {children}
-          </Providers>
+        <div className="container">
+          <Providers>{children}</Providers>
         </div>
       </body>
     </html>

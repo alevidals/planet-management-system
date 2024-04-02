@@ -12,22 +12,30 @@ export default function NotFound() {
   return (
     <div className="min-h-dvh flex items-center justify-center">
       <div className="flex flex-col gap-y-3">
-        <h1
+        <h2
           className={cn(
             "text-9xl text-primary font-extrabold text-center",
             swFont.className,
           )}
         >
-          Not found
-        </h1>
-        <h2 className="text-3xl font-extrabold text-center">
-          In this galaxy far, far away... no planet is named like this one
+          404
         </h2>
+        <h3
+          className={cn(
+            swFont.className,
+            "text-4xl font-extrabold text-center",
+          )}
+        >
+          Not found
+        </h3>
+        <p className="text-center text-xl">
+          In this galaxy far, far away... no planet is named like this one
+        </p>
         <Link
           href="/planets"
           className={cn(
             buttonVariants(),
-            "w-fit mx-auto font-bold uppercase mt-12 px-10 py-7",
+            "w-fit mx-auto font-bold uppercase mt-12 px-5 py-5",
           )}
         >
           Back to planets

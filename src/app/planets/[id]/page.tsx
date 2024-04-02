@@ -1,5 +1,6 @@
 "use client";
 
+import { Header } from "@/components/header";
 import {
   Card,
   CardContent,
@@ -82,7 +83,8 @@ export default function PlanetsPage({ params }: Props) {
   );
 
   return (
-    <main>
+    <main className="py-4">
+      <Header />
       <h1 className="text-3xl font-bold text-primary text-center">
         {planet.name}
       </h1>
