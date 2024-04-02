@@ -117,26 +117,28 @@ export function Pagination(props: Props) {
             )}
           />
         </PaginationItem>
-        {pages.map((page, index) => {
-          if (page === "...") {
+        <div className="hidden sm:flex">
+          {pages.map((page, index) => {
+            if (page === "...") {
+              return (
+                <PaginationItem key={index + page}>
+                  <PaginationEllipsis />
+                </PaginationItem>
+              );
+            }
+
             return (
               <PaginationItem key={index + page}>
-                <PaginationEllipsis />
+                <PaginationLink
+                  href={getHref(page)}
+                  isActive={currentPage === Number(page)}
+                >
+                  {page}
+                </PaginationLink>
               </PaginationItem>
             );
-          }
-
-          return (
-            <PaginationItem key={index + page}>
-              <PaginationLink
-                href={getHref(page)}
-                isActive={currentPage === Number(page)}
-              >
-                {page}
-              </PaginationLink>
-            </PaginationItem>
-          );
-        })}
+          })}
+        </div>
         <PaginationItem>
           <PaginationNext
             href={getHref(currentPage + 1)}

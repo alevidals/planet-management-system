@@ -106,7 +106,15 @@ export function PlanetsList({ planets: initialPlanets }: Props) {
     Number(page) * ITEMS_PER_PAGE,
   );
 
-  return planets.length > 0 ? (
+  if (planets.length <= 0) {
+    return (
+      <div className="flex items-center justify-center h-96">
+        <p className="text-xl font-bold">Loading...</p>
+      </div>
+    );
+  }
+
+  return (
     <>
       <div className="flex flex-col lg:flex-row gap-4 mb-4">
         <Input
@@ -175,18 +183,39 @@ export function PlanetsList({ planets: initialPlanets }: Props) {
           <IconEraser />
         </Button>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-        {filteredAndSortedPlanets.map((planet) => (
-          <PlanetCard planet={planet} key={planet.id} />
-        ))}
-      </div>
-      {totalPages > 1 && filteredAndSortedPlanets.length > 0 ? (
-        <Pagination currentPage={Number(page)} totalItems={totalItems} />
-      ) : null}
+      {filteredAndSortedPlanets.length > 0 ? (
+        <>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+            {filteredAndSortedPlanets.map((planet) => (
+              <PlanetCard planet={planet} key={planet.id} />
+            ))}
+          </div>
+          {totalPages > 1 && filteredAndSortedPlanets.length > 0 ? (
+            <Pagination currentPage={Number(page)} totalItems={totalItems} />
+          ) : null}
+        </>
+      ) : (
+        <div className="flex items-center justify-center h-96">
+          <p className="text-xl font-bold">No planets found</p>
+        </div>
+      )}
     </>
-  ) : (
-    <div className="flex items-center justify-center h-96">
-      <p className="text-xl font-bold">Loading...</p>
-    </div>
   );
+
+  // return filteredAndSortedPlanets.length > 0 ? (
+  //   <>
+  //     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+  //       {filteredAndSortedPlanets.map((planet) => (
+  //         <PlanetCard planet={planet} key={planet.id} />
+  //       ))}
+  //     </div>
+  //     {totalPages > 1 && filteredAndSortedPlanets.length > 0 ? (
+  //       <Pagination currentPage={Number(page)} totalItems={totalItems} />
+  //     ) : null}
+  //   </>
+  // ) : (
+  //   <div className="flex items-center justify-center h-96">
+  //     <p className="text-xl font-bold">No planets found</p>
+  //   </div>
+  // );
 }

@@ -1,11 +1,23 @@
 import { Button } from "@/components/ui/button";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
 import { LINKS } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 import { IconMenu } from "@tabler/icons-react";
+import localFont from "next/font/local";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
+
+const swFont = localFont({
+  src: "../../public/fonts/aurebesh.otf",
+  display: "swap",
+});
 
 export function HeaderSheet() {
   const pathname = usePathname();
@@ -19,6 +31,11 @@ export function HeaderSheet() {
         </Button>
       </SheetTrigger>
       <SheetContent>
+        <SheetHeader>
+          <SheetTitle className={cn(swFont.className, "text-primary")}>
+            PMS
+          </SheetTitle>
+        </SheetHeader>
         <div>
           <div className="flex flex-col">
             {LINKS.map((link) => (
