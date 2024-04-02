@@ -25,7 +25,7 @@
 ### Installation  
 1. Clone the repository
     ```sh
-    git clone [https](https://github.com/alevidals/pms-codetest.git)
+    git clone https://github.com/alevidals/pms-codetest.git
     ```
 
 2. Install the packages (You can use `npm` or `yarn` instead of `pnpm` if you like)
