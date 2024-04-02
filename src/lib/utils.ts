@@ -33,8 +33,7 @@ export function getHref(args: GetHrefArgs) {
 
   if (action === "delete") {
     for (const param of args.paramsToDelete) {
-      const [key] = Object.keys(param);
-      params.delete(key);
+      params.delete(param);
     }
   }
 
