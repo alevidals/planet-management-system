@@ -102,7 +102,7 @@ export function AddPlanetDialog(props: Props) {
           gender: undefined,
         })) ?? [],
     };
-    setPlanets((prev) => [...prev, planet]);
+    setPlanets((prev) => [...(prev ?? []), planet]);
     form.reset();
     setIsOpen(false);
   }

@@ -1,4 +1,4 @@
 import type { Planet } from "@/lib/types";
-import { atom } from "jotai";
+import { atomWithStorage } from "jotai/utils";
 
-export const planetsAtom = atom<Planet[]>([]);
+export const planetsAtom = atomWithStorage<Planet[] | null>("planets", null);

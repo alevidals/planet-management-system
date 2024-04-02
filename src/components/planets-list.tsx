@@ -9,6 +9,7 @@ import { ITEMS_PER_PAGE } from "@/lib/constants";
 import type { Order, OrderByField, Planet } from "@/lib/types";
 import { useAtom, useStore } from "jotai";
 import { useSearchParams } from "next/navigation";
+import { useEffect } from "react";
 
 type Props = {
   planets: Planet[];
@@ -21,19 +22,29 @@ export function PlanetsList({ planets: initialPlanets }: Props) {
     store: useStore(),
   });
 
+  useEffect(() => {
+    if (localStorage.getItem("planets") === null) {
+      setPlanets(initialPlanets);
+    }
+  }, []);
+
   const search = searchParams.get("search") ?? "";
   const page = searchParams.get("page") ?? 1;
   const orderBy = (searchParams.get("orderBy") as OrderByField) ?? "";
   const order = (searchParams.get("order") as Order) ?? "asc";
 
-  if (!planets.length) {
-    setPlanets(initialPlanets);
+  if (!planets) {
+    return (
+      <div className="flex items-center justify-center h-96">
+        <p className="text-xl font-bold">Loading...</p>
+      </div>
+    );
   }
 
-  let filteredAndSortedPlanets = [...planets];
+  let filteredAndSortedPlanets = [...(planets ?? [])];
 
   if (search) {
-    filteredAndSortedPlanets = planets.filter(
+    filteredAndSortedPlanets = planets?.filter(
       (planet) =>
         planet.name.toLowerCase().includes(search.toLowerCase()) ||
         planet.climates.some(({ climate }) =>
@@ -85,14 +96,6 @@ export function PlanetsList({ planets: initialPlanets }: Props) {
     (Number(page) - 1) * ITEMS_PER_PAGE,
     Number(page) * ITEMS_PER_PAGE,
   );
-
-  if (planets.length <= 0) {
-    return (
-      <div className="flex items-center justify-center h-96">
-        <p className="text-xl font-bold">Loading...</p>
-      </div>
-    );
-  }
 
   return (
     <>

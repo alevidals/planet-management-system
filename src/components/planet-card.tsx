@@ -48,7 +48,7 @@ export function PlanetCard({ planet }: Props) {
   const numberFormatter = new Intl.NumberFormat("en");
 
   function handleDeletePlanet() {
-    setPlanets((prev) => prev.filter((p) => p.id !== planet.id));
+    setPlanets((prev) => prev?.filter((p) => p.id !== planet.id) ?? []);
   }
 
   return (

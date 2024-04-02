@@ -66,7 +66,7 @@ export function EditPlanetForm(props: Props) {
   });
 
   function handleEditPlanet(data: UpdatePlanet) {
-    const newPlanets = planets.map((p) =>
+    const newPlanets = planets?.map((p) =>
       p.id === planet.id
         ? {
             ...planet,
@@ -86,7 +86,7 @@ export function EditPlanetForm(props: Props) {
         : p,
     );
 
-    setPlanets(newPlanets);
+    setPlanets(newPlanets ?? []);
     setIsOpen(false);
   }
 

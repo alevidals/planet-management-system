@@ -60,7 +60,18 @@ export default function PlanetsPage({ params }: Props) {
     store: useStore(),
   });
 
-  const planet = planets.find(
+  if (planets?.length === 0) {
+    return (
+      <main className="py-4">
+        <Header />
+        <div className="flex items-center justify-center h-96">
+          <p className="text-xl font-bold">Loading...</p>
+        </div>
+      </main>
+    );
+  }
+
+  const planet = planets?.find(
     (planet) => planet.id === decodeURIComponent(params.id),
   );
 
@@ -77,10 +88,22 @@ export default function PlanetsPage({ params }: Props) {
 
   const formattedDiameter = numberFormatter.format(planet.diameter);
   const formattedClimates = formatter.format(
-    planet.climates.flatMap((climate) => climate.climate),
+    planet.climates.flatMap(({ climate }, index) => {
+      if (index === 0) {
+        return climate.charAt(0).toUpperCase() + climate.slice(1);
+      }
+
+      return climate;
+    }),
   );
   const formattedTerrains = formatter.format(
-    planet.terrains.flatMap((terrain) => terrain.terrain),
+    planet.terrains.flatMap(({ terrain }, index) => {
+      if (index === 0) {
+        return terrain.charAt(0).toUpperCase() + terrain.slice(1);
+      }
+
+      return terrain;
+    }),
   );
 
   return (
@@ -114,51 +137,55 @@ export default function PlanetsPage({ params }: Props) {
         <Heading as="h3" className="text-primary mb-1">
           Residents
         </Heading>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {planet.residents.map((resident) => {
-            const genderInfo = getGenderInfo(resident.gender);
+        {planet.residents.length > 0 ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {planet.residents.map((resident) => {
+              const genderInfo = getGenderInfo(resident.gender);
 
-            return (
-              <Card key={resident.id}>
-                <CardHeader className="flex flex-row items-center gap-x-4">
-                  {genderInfo.icon}
-                  <div>
-                    <CardTitle>{resident.name}</CardTitle>
-                    <CardDescription className="capitalize">
-                      {genderInfo.name}
-                    </CardDescription>
-                  </div>
-                </CardHeader>
-                <CardContent>
-                  <div className="flex items-center gap-x-2">
-                    <p className="font-bold">Eye color:</p>
-                    <p>{resident.eyeColor ?? "-"}</p>
-                  </div>
-                  <div className="flex items-center gap-x-2">
-                    <p className="font-bold">Hair color:</p>
-                    <p>{resident.hairColor ?? "-"}</p>
-                  </div>
-                  <div className="flex items-center gap-x-2">
-                    <p className="font-bold">Skin color:</p>
-                    <p>{resident.skinColor ?? "-"}</p>
-                  </div>
-                  <div className="flex items-center gap-x-2">
-                    <p className="font-bold">Height:</p>
-                    <p>{resident.height ?? "-"}</p>
-                  </div>
-                  <div className="flex items-center gap-x-2">
-                    <p className="font-bold">Mass:</p>
-                    <p>{resident.mass ?? "-"}</p>
-                  </div>
-                  <div className="flex items-center gap-x-2">
-                    <p className="font-bold">Birth year</p>
-                    <p>{resident.birthYear ?? "-"}</p>
-                  </div>
-                </CardContent>
-              </Card>
-            );
-          })}
-        </div>
+              return (
+                <Card key={resident.id}>
+                  <CardHeader className="flex flex-row items-center gap-x-4">
+                    {genderInfo.icon}
+                    <div>
+                      <CardTitle>{resident.name}</CardTitle>
+                      <CardDescription className="capitalize">
+                        {genderInfo.name}
+                      </CardDescription>
+                    </div>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="flex items-center gap-x-2">
+                      <p className="font-bold">Eye color:</p>
+                      <p>{resident.eyeColor ?? "-"}</p>
+                    </div>
+                    <div className="flex items-center gap-x-2">
+                      <p className="font-bold">Hair color:</p>
+                      <p>{resident.hairColor ?? "-"}</p>
+                    </div>
+                    <div className="flex items-center gap-x-2">
+                      <p className="font-bold">Skin color:</p>
+                      <p>{resident.skinColor ?? "-"}</p>
+                    </div>
+                    <div className="flex items-center gap-x-2">
+                      <p className="font-bold">Height:</p>
+                      <p>{resident.height ?? "-"}</p>
+                    </div>
+                    <div className="flex items-center gap-x-2">
+                      <p className="font-bold">Mass:</p>
+                      <p>{resident.mass ?? "-"}</p>
+                    </div>
+                    <div className="flex items-center gap-x-2">
+                      <p className="font-bold">Birth year</p>
+                      <p>{resident.birthYear ?? "-"}</p>
+                    </div>
+                  </CardContent>
+                </Card>
+              );
+            })}
+          </div>
+        ) : (
+          <p>There is no resident in this planet.</p>
+        )}
       </div>
     </main>
   );
