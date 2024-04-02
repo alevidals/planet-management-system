@@ -158,6 +158,7 @@ export function EditPlanetForm(props: Props) {
                   size="icon"
                   variant="ghost"
                   className="text-destructive"
+                  disabled={climatesFields.length === 1}
                   onClick={() => removeClimate(index)}
                 >
                   <IconTrash size="20" />
@@ -196,6 +197,7 @@ export function EditPlanetForm(props: Props) {
                   size="icon"
                   variant="ghost"
                   className="text-destructive"
+                  disabled={terrainFields.length === 1}
                   onClick={() => removeTerrain(index)}
                 >
                   <IconTrash size="20" />

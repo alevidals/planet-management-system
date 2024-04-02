@@ -24,7 +24,7 @@ import type { InsertPlanet, Planet } from "@/lib/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { IconPlus, IconTrash } from "@tabler/icons-react";
 import { useSetAtom, useStore } from "jotai";
-import type { Dispatch, SetStateAction } from "react";
+import { type Dispatch, type SetStateAction, useEffect } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 
 type Props = {
@@ -38,6 +38,7 @@ export function AddPlanetDialog(props: Props) {
   const setPlanets = useSetAtom(planetsAtom, {
     store: useStore(),
   });
+
   const form = useForm<InsertPlanet>({
     resolver: zodResolver(insertPlanetSchema),
     defaultValues: {
@@ -56,6 +57,12 @@ export function AddPlanetDialog(props: Props) {
       residents: [],
     },
   });
+
+  useEffect(() => {
+    if (!isOpen) {
+      form.reset();
+    }
+  }, [isOpen, form.reset]);
 
   const {
     fields: climatesFields,
