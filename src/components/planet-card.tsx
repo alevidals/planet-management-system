@@ -14,6 +14,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Meteors } from "@/components/ui/meteors";
 import { Separator } from "@/components/ui/separator";
 import { planetsAtom } from "@/lib/atoms";
 import type { Planet } from "@/lib/types";
@@ -53,7 +54,7 @@ export function PlanetCard({ planet }: Props) {
 
   return (
     <>
-      <Card className="hover:border-primary">
+      <Card className="hover:border-primary overflow-hidden relative">
         <CardHeader className="flex flex-row justify-between items-center space-y-0 gap-x-4">
           <Link href={`/planets/${planet.id}`}>
             <CardTitle className="mb-1 break-all">{planet.name}</CardTitle>
@@ -135,6 +136,7 @@ export function PlanetCard({ planet }: Props) {
             </div>
           </CardContent>
         </Link>
+        <Meteors number={3} />
       </Card>
       <DeletePlanetDialog
         handleDeletePlanet={handleDeletePlanet}

@@ -107,8 +107,7 @@ export default function PlanetsPage({ params }: Props) {
   );
 
   return (
-    <main className="py-4">
-      <Header />
+    <main>
       <Heading as="h2" className="text-primary mb-4 text-center break-all">
         {planet.name}
       </Heading>

@@ -5,6 +5,7 @@ import { HeaderNav } from "@/components/header-nav";
 import { HeaderSheet } from "@/components/header-sheet";
 import { Heading } from "@/components/heading";
 import { Button } from "@/components/ui/button";
+import { HoverBorderGradient } from "@/components/ui/hover-border-gradient";
 import { cn } from "@/lib/utils";
 import { IconPlanet } from "@tabler/icons-react";
 import localFont from "next/font/local";
@@ -37,12 +38,15 @@ export function Header() {
         <div className="hidden md:block">
           <HeaderNav />
         </div>
-        <Button
-          className="font-semibold hidden md:inline-block"
+
+        <HoverBorderGradient
+          containerClassName="rounded-lg"
+          className="font-semibold hidden md:inline-block bg-background"
+          as={Button}
           onClick={() => setIsOpenAddPlanetDialog(true)}
         >
           Add planet
-        </Button>
+        </HoverBorderGradient>
       </div>
       <HeaderSheet />
       <AddPlanetDialog
