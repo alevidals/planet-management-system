@@ -93,8 +93,6 @@ export function PlanetsList({ planets: initialPlanets }: Props) {
 
   const totalPages = Math.ceil(totalItems / ITEMS_PER_PAGE);
 
-  console.log(page, totalPages);
-
   filteredAndSortedPlanets = filteredAndSortedPlanets.slice(
     (page - 1) * ITEMS_PER_PAGE,
     page * ITEMS_PER_PAGE,
