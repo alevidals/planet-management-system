@@ -1,6 +1,7 @@
 "use client";
 
 import { Header } from "@/components/header";
+import { Heading } from "@/components/heading";
 import {
   Card,
   CardContent,
@@ -85,26 +86,34 @@ export default function PlanetsPage({ params }: Props) {
   return (
     <main className="py-4">
       <Header />
-      <h1 className="text-3xl font-bold text-primary text-center">
+      <Heading as="h2" className="text-primary text-center">
         {planet.name}
-      </h1>
+      </Heading>
 
       <div className="mb-4">
-        <h2 className="text-xl font-bold text-primary">Diameter</h2>
+        <Heading as="h3" className="text-primary">
+          Diameter
+        </Heading>
         <p>{formattedDiameter} km</p>
       </div>
 
       <div className="mb-4">
-        <h2 className="text-xl font-bold text-primary">Climates</h2>
+        <Heading as="h3" className="text-primary">
+          Climates
+        </Heading>
         <p>{formattedClimates}</p>
       </div>
       <div className="mb-4">
-        <h2 className="text-xl font-bold text-primary">Terrains</h2>
+        <Heading as="h3" className="text-primary">
+          Terrains
+        </Heading>
         <p>{formattedTerrains}</p>
       </div>
 
       <div className="mb-4">
-        <h2 className="text-xl font-bold text-primary mb-1">Residents</h2>
+        <Heading as="h3" className="text-primary mb-1">
+          Residents
+        </Heading>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {planet.residents.map((resident) => {
             const genderInfo = getGenderInfo(resident.gender);
@@ -138,12 +147,10 @@ export default function PlanetsPage({ params }: Props) {
                     <p>{resident.height ?? "-"}</p>
                   </div>
                   <div className="flex items-center gap-x-2">
-                    {/* <IconHaze size={24} className="text-primary" /> */}
                     <p className="font-bold">Mass:</p>
                     <p>{resident.mass ?? "-"}</p>
                   </div>
                   <div className="flex items-center gap-x-2">
-                    {/* <IconHaze size={24} className="text-primary" /> */}
                     <p className="font-bold">Birth year</p>
                     <p>{resident.birthYear ?? "-"}</p>
                   </div>

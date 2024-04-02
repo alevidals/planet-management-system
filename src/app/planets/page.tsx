@@ -1,6 +1,7 @@
 import { Header } from "@/components/header";
 import { PlanetsList } from "@/components/planets-list";
 import { getPlanets } from "@/lib/planets";
+import { Suspense } from "react";
 
 export default async function PlanetsPage() {
   const planets = await getPlanets();
@@ -8,7 +9,9 @@ export default async function PlanetsPage() {
   return (
     <main className="py-4">
       <Header />
-      <PlanetsList planets={planets} />
+      <Suspense>
+        <PlanetsList planets={planets} />
+      </Suspense>
     </main>
   );
 }

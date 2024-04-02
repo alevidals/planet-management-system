@@ -2,40 +2,20 @@
 
 import { Pagination } from "@/components/pagination";
 import { PlanetCard } from "@/components/planet-card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { PlanetsListsFilter } from "@/components/planets-lists-filter";
+
 import { planetsAtom } from "@/lib/atoms";
-import { ITEMS_PER_PAGE, ORDER_FIELDS } from "@/lib/constants";
-import type { Planet } from "@/lib/types";
-import { IconEraser } from "@tabler/icons-react";
+import { ITEMS_PER_PAGE } from "@/lib/constants";
+import type { Order, OrderByField, Planet } from "@/lib/types";
 import { useAtom, useStore } from "jotai";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 
 type Props = {
   planets: Planet[];
 };
 
-type OrderByField =
-  | ""
-  | "name"
-  | "diameter"
-  | "climates"
-  | "terrains"
-  | "residents";
-
-type Order = "asc" | "desc";
-
 export function PlanetsList({ planets: initialPlanets }: Props) {
-  const router = useRouter();
   const searchParams = useSearchParams();
-  const pathname = usePathname();
 
   const [planets, setPlanets] = useAtom(planetsAtom, {
     store: useStore(),
@@ -116,73 +96,7 @@ export function PlanetsList({ planets: initialPlanets }: Props) {
 
   return (
     <>
-      <div className="flex flex-col lg:flex-row gap-4 mb-4">
-        <Input
-          size={30}
-          className="h-12"
-          placeholder="Search planets"
-          value={search}
-          onChange={(event) => {
-            const params = new URLSearchParams(searchParams);
-            params.set("search", event.target.value);
-
-            router.replace(`${pathname}?${params.toString()}`);
-          }}
-        />
-        <Select
-          value={orderBy}
-          onValueChange={(key) => {
-            const params = new URLSearchParams(searchParams);
-            params.set("orderBy", key);
-
-            router.replace(`${pathname}?${params.toString()}`);
-          }}
-        >
-          <SelectTrigger className="h-12">
-            <SelectValue placeholder="Sort by" />
-          </SelectTrigger>
-          <SelectContent>
-            {ORDER_FIELDS.map((field) => (
-              <SelectItem value={field.value} key={field.value}>
-                {field.label}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-        <Select
-          value={order}
-          disabled={!orderBy}
-          onValueChange={(key) => {
-            const params = new URLSearchParams(searchParams);
-            params.set("order", key);
-
-            router.replace(`${pathname}?${params.toString()}`);
-          }}
-        >
-          <SelectTrigger className="h-12">
-            <SelectValue placeholder="Order" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="asc">Ascending</SelectItem>
-            <SelectItem value="desc">Descending</SelectItem>
-          </SelectContent>
-        </Select>
-        <Button
-          size="icon"
-          variant="destructive"
-          className="shrink-0 h-12 w-12"
-          onClick={() => {
-            const params = new URLSearchParams(searchParams);
-            params.delete("search");
-            params.delete("orderBy");
-            params.delete("order");
-
-            router.replace(`${pathname}?${params.toString()}`);
-          }}
-        >
-          <IconEraser />
-        </Button>
-      </div>
+      <PlanetsListsFilter />
       {filteredAndSortedPlanets.length > 0 ? (
         <>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
@@ -201,21 +115,4 @@ export function PlanetsList({ planets: initialPlanets }: Props) {
       )}
     </>
   );
-
-  // return filteredAndSortedPlanets.length > 0 ? (
-  //   <>
-  //     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-  //       {filteredAndSortedPlanets.map((planet) => (
-  //         <PlanetCard planet={planet} key={planet.id} />
-  //       ))}
-  //     </div>
-  //     {totalPages > 1 && filteredAndSortedPlanets.length > 0 ? (
-  //       <Pagination currentPage={Number(page)} totalItems={totalItems} />
-  //     ) : null}
-  //   </>
-  // ) : (
-  //   <div className="flex items-center justify-center h-96">
-  //     <p className="text-xl font-bold">No planets found</p>
-  //   </div>
-  // );
 }

@@ -1,14 +1,14 @@
 "use client";
 
 import { AddPlanetDialog } from "@/components/add-planet-dialog";
+import { HeaderNav } from "@/components/header-nav";
 import { HeaderSheet } from "@/components/header-sheet";
+import { Heading } from "@/components/heading";
 import { Button } from "@/components/ui/button";
-import { LINKS } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 import { IconPlanet } from "@tabler/icons-react";
 import localFont from "next/font/local";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import { useState } from "react";
 
 const swFont = localFont({
@@ -19,35 +19,26 @@ const swFont = localFont({
 export function Header() {
   const [isOpenAddPlanetDialog, setIsOpenAddPlanetDialog] = useState(false);
 
-  const pathname = usePathname();
-
   return (
     <header className="border bg-default-100 p-3 rounded-xl mb-4 flex items-center justify-between text-foreground h-16">
-      <div className="flex items-center gap-x-3">
-        <Link className="bg-primary p-2 rounded-full" href="/">
+      <Link href="/" className="flex items-center gap-x-3">
+        <div className="p-2 rounded-full bg-primary">
           <IconPlanet size={24} className="text-black rounded-full" />
-        </Link>
-        <h1 className={cn(swFont.className, "text-primary")}>
+        </div>
+        <Heading
+          as="h1"
+          className={cn(swFont.className, "text-primary text-base")}
+        >
           <span className="hidden md:inline">Planet Management System</span>
           <span className="md:hidden">PMS</span>
-        </h1>
-      </div>
-      <div className="items-center gap-x-4 hidden md:flex">
-        {LINKS.map((link) => (
-          <Link
-            key={link.href}
-            href={link.href}
-            className={`${
-              link.href === pathname
-                ? "underline text-primary font-semibold"
-                : ""
-            }`}
-          >
-            {link.label}
-          </Link>
-        ))}
+        </Heading>
+      </Link>
+      <div className="flex items-center gap-x-6">
+        <div className="hidden md:block">
+          <HeaderNav />
+        </div>
         <Button
-          className="font-semibold"
+          className="font-semibold hidden md:inline-block"
           onClick={() => setIsOpenAddPlanetDialog(true)}
         >
           Add planet

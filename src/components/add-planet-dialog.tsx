@@ -93,6 +93,13 @@ export function AddPlanetDialog(props: Props) {
         data.residents?.map(({ resident }) => ({
           id: randomBytes(12).toString("hex"),
           name: resident,
+          birthYear: undefined,
+          eyeColor: undefined,
+          hairColor: undefined,
+          skinColor: undefined,
+          height: undefined,
+          mass: undefined,
+          gender: undefined,
         })) ?? [],
     };
     setPlanets((prev) => [...prev, planet]);

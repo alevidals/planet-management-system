@@ -8,6 +8,9 @@
     "ignore": ["src/generated/**"],
     "rules": {
       "recommended": true,
+      "correctness": {
+        "noUnusedVariables": "error"
+      },
       "suspicious": {
         "noArrayIndexKey": "off"
       },

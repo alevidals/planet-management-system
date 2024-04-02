@@ -1,3 +1,4 @@
+import { Heading } from "@/components/heading";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import localFont from "next/font/local";
@@ -12,22 +13,24 @@ export default function NotFound() {
   return (
     <div className="min-h-dvh flex items-center justify-center">
       <div className="flex flex-col gap-y-3">
-        <h2
+        <Heading
+          as="h2"
           className={cn(
             "text-9xl text-primary font-extrabold text-center",
             swFont.className,
           )}
         >
           404
-        </h2>
-        <h3
+        </Heading>
+        <Heading
+          as="h3"
           className={cn(
             swFont.className,
             "text-4xl font-extrabold text-center",
           )}
         >
           Not found
-        </h3>
+        </Heading>
         <p className="text-center text-xl">
           In this galaxy far, far away... no planet is named like this one
         </p>
