@@ -8,7 +8,7 @@ import {
   Pagination as SPagination,
 } from "@/components/ui/pagination";
 import { ITEMS_PER_PAGE } from "@/lib/constants";
-import { cn } from "@/lib/utils";
+import { cn, getHref } from "@/lib/utils";
 import { usePathname, useSearchParams } from "next/navigation";
 
 type Props = {
@@ -96,20 +96,25 @@ export function Pagination(props: Props) {
     totalPageNumbers,
   });
 
-  function getHref(page: string | number) {
-    const params = new URLSearchParams(searchParams);
-    params.set("page", String(page));
-    const href = `${pathname}?${params.toString()}`;
-
-    return href;
-  }
+  const previousPageHref = getHref({
+    action: "set",
+    searchParams,
+    pathname,
+    paramsToSet: [{ page: currentPage - 1 }],
+  });
+  const nextPageHref = getHref({
+    action: "set",
+    searchParams,
+    pathname,
+    paramsToSet: [{ page: currentPage + 1 }],
+  });
 
   return (
     <SPagination>
       <PaginationContent>
         <PaginationItem>
           <PaginationPrevious
-            href={getHref(currentPage - 1)}
+            href={previousPageHref}
             aria-disabled={currentPage === 1}
             tabIndex={currentPage === 1 ? -1 : undefined}
             className={cn(
@@ -127,10 +132,17 @@ export function Pagination(props: Props) {
               );
             }
 
+            const href = getHref({
+              action: "set",
+              searchParams,
+              pathname,
+              paramsToSet: [{ page }],
+            });
+
             return (
               <PaginationItem key={index + page}>
                 <PaginationLink
-                  href={getHref(page)}
+                  href={href}
                   isActive={currentPage === Number(page)}
                 >
                   {page}
@@ -141,7 +153,7 @@ export function Pagination(props: Props) {
         </div>
         <PaginationItem>
           <PaginationNext
-            href={getHref(currentPage + 1)}
+            href={nextPageHref}
             aria-disabled={currentPage === totalPages}
             tabIndex={currentPage === totalPages ? -1 : undefined}
             className={cn(

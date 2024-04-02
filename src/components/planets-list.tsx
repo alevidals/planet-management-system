@@ -3,11 +3,14 @@
 import { Pagination } from "@/components/pagination";
 import { PlanetCard } from "@/components/planet-card";
 import { PlanetsListsFilter } from "@/components/planets-lists-filter";
+import { buttonVariants } from "@/components/ui/button";
 
 import { planetsAtom } from "@/lib/atoms";
 import { ITEMS_PER_PAGE } from "@/lib/constants";
 import type { Order, OrderByField, Planet } from "@/lib/types";
+import { cn } from "@/lib/utils";
 import { useAtom, useStore } from "jotai";
+import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 
@@ -29,7 +32,7 @@ export function PlanetsList({ planets: initialPlanets }: Props) {
   }, []);
 
   const search = searchParams.get("search") ?? "";
-  const page = searchParams.get("page") ?? 1;
+  const page = searchParams.get("page") ? Number(searchParams.get("page")) : 1;
   const orderBy = (searchParams.get("orderBy") as OrderByField) ?? "";
   const order = (searchParams.get("order") as Order) ?? "asc";
 
@@ -86,15 +89,15 @@ export function PlanetsList({ planets: initialPlanets }: Props) {
     }
   }
 
-  const totalPages = Math.ceil(
-    filteredAndSortedPlanets.length / ITEMS_PER_PAGE,
-  );
-
   const totalItems = filteredAndSortedPlanets.length;
 
+  const totalPages = Math.ceil(totalItems / ITEMS_PER_PAGE);
+
+  console.log(page, totalPages);
+
   filteredAndSortedPlanets = filteredAndSortedPlanets.slice(
-    (Number(page) - 1) * ITEMS_PER_PAGE,
-    Number(page) * ITEMS_PER_PAGE,
+    (page - 1) * ITEMS_PER_PAGE,
+    page * ITEMS_PER_PAGE,
   );
 
   return (
@@ -111,9 +114,32 @@ export function PlanetsList({ planets: initialPlanets }: Props) {
             <Pagination currentPage={Number(page)} totalItems={totalItems} />
           ) : null}
         </>
+      ) : page > totalPages && totalPages !== 0 ? (
+        <div className="flex items-center justify-center h-96 mx-auto max-w-xl text-balance text-center">
+          <div>
+            <p className="text-lg text-primary">
+              "Looks like you've traveled too far into the Unknown Regions of
+              our search galaxy! Navigate back to familiar territories or use
+              the Force to refine your search coordinates. Remember, even Jedi
+              must stay within the boundaries of our search database." 🌌✨
+            </p>
+            <Link
+              href="/planets"
+              className={cn(buttonVariants({ variant: "outline" }), "mt-4")}
+            >
+              Back to first page
+            </Link>
+          </div>
+        </div>
       ) : (
-        <div className="flex items-center justify-center h-96">
-          <p className="text-xl font-bold">No planets found</p>
+        <div className="flex items-center justify-center h-96 mx-auto max-w-xl text-balance text-center">
+          <div>
+            <p className="text-lg text-primary">
+              "Looks like the Force isn't strong with this search! Try altering
+              your parameters or explore our galaxy of options. May the results
+              be with you!" 🌟🚀
+            </p>
+          </div>
         </div>
       )}
     </>

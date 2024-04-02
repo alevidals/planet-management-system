@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/select";
 import { ORDER_FIELDS } from "@/lib/constants";
 import type { Order, OrderByField } from "@/lib/types";
-import { cn } from "@/lib/utils";
+import { cn, getHref } from "@/lib/utils";
 import { IconEraser, IconFilter } from "@tabler/icons-react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
@@ -50,19 +50,27 @@ export function PlanetsListsFilter() {
             placeholder="Search planets"
             value={search}
             onChange={(event) => {
-              const params = new URLSearchParams(searchParams);
-              params.set("search", event.target.value);
+              const href = getHref({
+                action: "set",
+                searchParams,
+                pathname,
+                paramsToSet: [{ search: event.target.value }],
+              });
 
-              router.replace(`${pathname}?${params.toString()}`);
+              router.replace(href);
             }}
           />
           <Select
             value={orderBy}
             onValueChange={(key) => {
-              const params = new URLSearchParams(searchParams);
-              params.set("orderBy", key);
+              const href = getHref({
+                action: "set",
+                searchParams,
+                pathname,
+                paramsToSet: [{ orderBy: key }],
+              });
 
-              router.replace(`${pathname}?${params.toString()}`);
+              router.replace(href);
             }}
           >
             <SelectTrigger className="h-12">
@@ -80,10 +88,14 @@ export function PlanetsListsFilter() {
             value={order}
             disabled={!orderBy}
             onValueChange={(key) => {
-              const params = new URLSearchParams(searchParams);
-              params.set("order", key);
+              const href = getHref({
+                action: "set",
+                searchParams,
+                pathname,
+                paramsToSet: [{ order: key }],
+              });
 
-              router.replace(`${pathname}?${params.toString()}`);
+              router.replace(href);
             }}
           >
             <SelectTrigger className="h-12">
@@ -99,12 +111,14 @@ export function PlanetsListsFilter() {
             variant="destructive"
             className="shrink-0 h-12 w-full md:w-12"
             onClick={() => {
-              const params = new URLSearchParams(searchParams);
-              params.delete("search");
-              params.delete("orderBy");
-              params.delete("order");
+              const href = getHref({
+                action: "delete",
+                pathname,
+                searchParams,
+                paramsToDelete: ["search", "orderBy", "order"],
+              });
 
-              router.replace(`${pathname}?${params.toString()}`);
+              router.replace(href);
             }}
           >
             <IconEraser />
