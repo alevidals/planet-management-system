@@ -25,7 +25,10 @@ export function DeletePlanetDialog(props: Props) {
         <AlertDialogHeader>
           <AlertDialogTitle>
             Are you absolutely sure to delete the planet{" "}
-            <span className="text-primary font-bold">{planetName}</span>?
+            <span className="text-primary font-bold break-all">
+              {planetName}
+            </span>
+            ?
           </AlertDialogTitle>
           <AlertDialogDescription>
             This action cannot be undone. This will permanently delete the

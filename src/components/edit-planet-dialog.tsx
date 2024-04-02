@@ -20,9 +20,11 @@ export function EditPlanetDialog(props: Props) {
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogContent className="max-h-[50rem] overflow-y-scroll scrollbar-hide">
         <DialogHeader>
-          <DialogTitle>
+          <DialogTitle title={planet.name}>
             Editing planet{" "}
-            <span className="text-primary font-bold">{planet.name}</span>
+            <span className="text-primary font-bold break-all">
+              {planet.name}
+            </span>
           </DialogTitle>
         </DialogHeader>
         <EditPlanetForm planet={planet} setIsOpen={setIsOpen} />

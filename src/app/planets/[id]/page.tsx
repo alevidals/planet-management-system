@@ -109,7 +109,7 @@ export default function PlanetsPage({ params }: Props) {
   return (
     <main className="py-4">
       <Header />
-      <Heading as="h2" className="text-primary text-center">
+      <Heading as="h2" className="text-primary mb-4 text-center break-all">
         {planet.name}
       </Heading>
 
@@ -124,13 +124,13 @@ export default function PlanetsPage({ params }: Props) {
         <Heading as="h3" className="text-primary">
           Climates
         </Heading>
-        <p>{formattedClimates}</p>
+        <p className="break-all">{formattedClimates}</p>
       </div>
       <div className="mb-4">
         <Heading as="h3" className="text-primary">
           Terrains
         </Heading>
-        <p>{formattedTerrains}</p>
+        <p className="break-all">{formattedTerrains}</p>
       </div>
 
       <div className="mb-4">
@@ -138,15 +138,15 @@ export default function PlanetsPage({ params }: Props) {
           Residents
         </Heading>
         {planet.residents.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
             {planet.residents.map((resident) => {
               const genderInfo = getGenderInfo(resident.gender);
 
               return (
                 <Card key={resident.id}>
                   <CardHeader className="flex flex-row items-center gap-x-4">
-                    {genderInfo.icon}
-                    <div>
+                    <div>{genderInfo.icon}</div>
+                    <div className="break-all">
                       <CardTitle>{resident.name}</CardTitle>
                       <CardDescription className="capitalize">
                         {genderInfo.name}

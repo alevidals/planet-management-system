@@ -54,15 +54,15 @@ export function PlanetCard({ planet }: Props) {
   return (
     <>
       <Card className="hover:border-primary">
-        <CardHeader className="flex flex-row justify-between items-center">
+        <CardHeader className="flex flex-row justify-between items-center space-y-0 gap-x-4">
           <Link href={`/planets/${planet.id}`}>
-            <CardTitle>{planet.name}</CardTitle>
+            <CardTitle className="mb-1 break-all">{planet.name}</CardTitle>
             <CardDescription>
               {numberFormatter.format(planet.diameter)} km
             </CardDescription>
           </Link>
           <DropdownMenu>
-            <DropdownMenuTrigger asChild>
+            <DropdownMenuTrigger asChild className="shrink-0">
               <Button size="icon" variant="outline">
                 <IconDots />
               </Button>
@@ -99,10 +99,12 @@ export function PlanetCard({ planet }: Props) {
         <Link href={`/planets/${planet.id}`}>
           <CardContent className="flex flex-col gap-y-2 p-6">
             <div className="flex gap-x-4 items-center">
-              <IconHaze size={24} className="text-primary" />
+              <div>
+                <IconHaze size={24} className="text-primary" />
+              </div>
               <div>
                 <p className="text-sm">Climates</p>
-                <p className="text-md">
+                <p className="text-md line-clamp-1 break-all">
                   {listFormatter.format(
                     planet.climates.flatMap((climate) => climate.climate),
                   )}
@@ -110,10 +112,12 @@ export function PlanetCard({ planet }: Props) {
               </div>
             </div>
             <div className="flex gap-x-4 items-center jus">
-              <IconBackground size={24} className="text-primary" />
+              <div>
+                <IconBackground size={24} className="text-primary" />
+              </div>
               <div>
                 <p className="text-sm">Terrains</p>
-                <p className="text-md line-clamp-1">
+                <p className="text-md line-clamp-1 break-all">
                   {listFormatter.format(
                     planet.terrains.flatMap((terrain) => terrain.terrain),
                   )}
