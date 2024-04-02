@@ -60,7 +60,7 @@ export default function PlanetsPage({ params }: Props) {
     store: useStore(),
   });
 
-  if (planets?.length === 0) {
+  if (!planets) {
     return (
       <main className="py-4">
         <Header />

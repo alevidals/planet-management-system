@@ -9,7 +9,7 @@ export default async function PlanetsPage() {
   return (
     <main className="py-4">
       <Header />
-      <Suspense fallback={<h1>asdasd</h1>}>
+      <Suspense>
         <PlanetsList planets={planets} />
       </Suspense>
     </main>
