@@ -109,30 +109,6 @@ export default function PlanetsPage({ params }: Props) {
 
   return (
     <main>
-      {/* <Heading as="h2" className="text-primary mb-4 text-center break-all">
-        {planet.name}
-      </Heading>
-
-      <div className="mb-4">
-        <Heading as="h3" className="text-primary">
-          Diameter
-        </Heading>
-        <p>{formattedDiameter} km</p>
-      </div>
-
-      <div className="mb-4">
-        <Heading as="h3" className="text-primary">
-          Climates
-        </Heading>
-        <p className="break-all">{formattedClimates}</p>
-      </div>
-      <div className="mb-4">
-        <Heading as="h3" className="text-primary">
-          Terrains
-        </Heading>
-        <p className="break-all">{formattedTerrains}</p>
-      </div> */}
-
       <div className="relative flex flex-col md:flex-row items-center justify-center">
         <div className="order-2 md:order-1 w-full text-center">
           <Heading as="h3" className="text-xl md:text-2xl">
@@ -140,12 +116,12 @@ export default function PlanetsPage({ params }: Props) {
           </Heading>
           <p className="break-all">{formattedClimates}</p>
         </div>
-        <div className="h-96 md:w-[30rem] w-96 md:h-[30rem] relative group shrink-0 order-1 md:order-2">
+        <div className="h-96 md:w-[30rem] w-96 md:h-[30rem] relative group shrink-0 order-1 md:order-2 duration-300">
           <Image
             src="/planet.webp"
             alt="planet"
             fill
-            className="opacity-50 group-hover:opacity-100"
+            className="opacity-50 group-hover:opacity-100 duration-500"
           />
           <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
             <Heading
