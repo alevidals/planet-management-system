@@ -18,6 +18,7 @@ import {
   IconRobot,
 } from "@tabler/icons-react";
 import { useAtomValue, useStore } from "jotai";
+import Image from "next/image";
 import { notFound } from "next/navigation";
 import type { ReactNode } from "react";
 
@@ -108,7 +109,7 @@ export default function PlanetsPage({ params }: Props) {
 
   return (
     <main>
-      <Heading as="h2" className="text-primary mb-4 text-center break-all">
+      {/* <Heading as="h2" className="text-primary mb-4 text-center break-all">
         {planet.name}
       </Heading>
 
@@ -130,14 +131,46 @@ export default function PlanetsPage({ params }: Props) {
           Terrains
         </Heading>
         <p className="break-all">{formattedTerrains}</p>
+      </div> */}
+
+      <div className="relative flex flex-col md:flex-row items-center justify-center">
+        <div className="order-2 md:order-1 w-full text-center">
+          <Heading as="h3" className="text-xl md:text-2xl">
+            Climates
+          </Heading>
+          <p className="break-all">{formattedClimates}</p>
+        </div>
+        <div className="h-96 md:w-[30rem] w-96 md:h-[30rem] relative group shrink-0 order-1 md:order-2 duration-300">
+          <Image
+            src="/planet.webp"
+            alt="planet"
+            fill
+            className="opacity-50 group-hover:opacity-100 duration-500"
+          />
+          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+            <Heading
+              as="h2"
+              className="text-center text-2xl md:text-4xl break-all"
+            >
+              {planet.name}
+            </Heading>
+            <span className="block text-center">{formattedDiameter} km</span>
+          </div>
+        </div>
+        <div className="order-3 my-4 md:my-0 w-full text-center">
+          <Heading as="h3" className="text-xl md:text-2xl">
+            Terrains
+          </Heading>
+          <p className="break-all">{formattedTerrains}</p>
+        </div>
       </div>
 
       <div className="mb-4">
-        <Heading as="h3" className="text-primary mb-1">
+        <Heading as="h3" className="text-xl md:text-2xl text-center">
           Residents
         </Heading>
         {planet.residents.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mt-2">
             {planet.residents.map((resident) => {
               const genderInfo = getGenderInfo(resident.gender);
 
@@ -183,7 +216,7 @@ export default function PlanetsPage({ params }: Props) {
             })}
           </div>
         ) : (
-          <p>There is no resident in this planet.</p>
+          <p className="text-center">There is no resident in this planet.</p>
         )}
       </div>
     </main>

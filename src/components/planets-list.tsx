@@ -3,12 +3,11 @@
 import { Pagination } from "@/components/pagination";
 import { PlanetCard } from "@/components/planet-card";
 import { PlanetsListsFilter } from "@/components/planets-lists-filter";
-import { buttonVariants } from "@/components/ui/button";
+import { HoverBorderGradient } from "@/components/ui/hover-border-gradient";
 
 import { planetsAtom } from "@/lib/atoms";
 import { ITEMS_PER_PAGE } from "@/lib/constants";
 import type { Order, OrderByField, Planet } from "@/lib/types";
-import { cn } from "@/lib/utils";
 import { useAtom, useStore } from "jotai";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
@@ -115,29 +114,35 @@ export function PlanetsList({ planets: initialPlanets }: Props) {
       ) : page > totalPages && totalPages !== 0 ? (
         <div className="flex items-center justify-center h-96 mx-auto max-w-xl text-balance text-center">
           <div>
-            <p className="text-lg text-primary">
+            <p className="text-lg">
               "Looks like you've traveled too far into the Unknown Regions of
               our search galaxy! Navigate back to familiar territories or use
               the Force to refine your search coordinates. Remember, even Jedi
               must stay within the boundaries of our search database." 🌌✨
             </p>
-            <Link
+            <HoverBorderGradient
+              containerClassName="rounded-lg mx-auto mt-4"
+              as={Link}
               href="/planets"
-              className={cn(buttonVariants({ variant: "outline" }), "mt-4")}
             >
               Back to first page
-            </Link>
+            </HoverBorderGradient>
           </div>
         </div>
       ) : (
         <div className="flex items-center justify-center h-96 mx-auto max-w-xl text-balance text-center">
-          <div>
-            <p className="text-lg text-primary">
-              "Looks like the Force isn't strong with this search! Try altering
-              your parameters or explore our galaxy of options. May the results
-              be with you!" 🌟🚀
-            </p>
-          </div>
+          <p className="text-lg">
+            "Looks like the Force isn't strong with this search! Try altering
+            your parameters or explore our galaxy of options. May the results be
+            with you!" 🌟🚀
+            <HoverBorderGradient
+              containerClassName="rounded-lg mx-auto mt-4"
+              as={Link}
+              href="/planets"
+            >
+              Clear filters
+            </HoverBorderGradient>
+          </p>
         </div>
       )}
     </>

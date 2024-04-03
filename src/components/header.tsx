@@ -16,14 +16,14 @@ const swFont = localFont({
 
 export function Header() {
   return (
-    <header className="border bg-default-100 p-3 rounded-xl mb-4 flex items-center justify-between text-foreground h-16">
+    <header className="border p-3 rounded-xl mb-4 flex items-center justify-between text-foreground h-16">
       <Link href="/" className="flex items-center gap-x-3">
         <div className="p-2 rounded-full bg-primary">
           <IconPlanet size={24} className="text-black rounded-full" />
         </div>
         <Heading
           as="h1"
-          className={cn(swFont.className, "text-primary text-base")}
+          className={cn(swFont.className, "text-base text-primary")}
         >
           <span className="hidden md:inline">Planet Management System</span>
           <span className="md:hidden">PMS</span>
