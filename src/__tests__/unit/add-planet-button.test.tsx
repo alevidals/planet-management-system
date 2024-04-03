@@ -2,7 +2,7 @@ import { AddPlanetButton } from "@/components/ui/add-planet-button";
 import { fireEvent, render } from "@testing-library/react";
 import { describe, expect, test } from "vitest";
 
-describe("Planets lists filter", () => {
+describe("Add planet button tests", () => {
   test("should render the button", () => {
     const screen = render(<AddPlanetButton />);
 

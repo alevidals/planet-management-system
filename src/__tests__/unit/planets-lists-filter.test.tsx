@@ -1,5 +1,6 @@
 import { PlanetsListsFilter } from "@/components/planets-lists-filter";
-import { fireEvent, render } from "@testing-library/react";
+import { render } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { beforeAll, describe, expect, test, vi } from "vitest";
 
 describe("Planets lists filter", () => {
@@ -24,22 +25,22 @@ describe("Planets lists filter", () => {
     screen.unmount();
   });
 
-  test("should show filters button with 'Hide filters' text", () => {
+  test("should show filters button with 'Hide filters' text", async () => {
     const screen = render(<PlanetsListsFilter />);
 
     const button = screen.getByRole("button", { name: "Show filters" });
 
-    fireEvent.click(button);
+    await userEvent.click(button);
 
     expect(button.textContent).toBe("Hide filters");
     screen.unmount();
   });
 
-  test("should show filter and sort options", () => {
+  test("should show filter and sort options", async () => {
     const screen = render(<PlanetsListsFilter />);
 
     const button = screen.getByRole("button", { name: "Show filters" });
-    fireEvent.click(button);
+    await userEvent.click(button);
 
     const searchInput = screen.getByRole("textbox");
     const selects = screen.getAllByRole("combobox");
@@ -49,11 +50,11 @@ describe("Planets lists filter", () => {
     screen.unmount();
   });
 
-  test("should show disabled sort field", () => {
+  test("should show disabled sort field", async () => {
     const screen = render(<PlanetsListsFilter />);
 
     const button = screen.getByRole("button", { name: "Show filters" });
-    fireEvent.click(button);
+    await userEvent.click(button);
 
     const selects = screen.getAllByRole("combobox");
     const orderSelect = selects[1];
