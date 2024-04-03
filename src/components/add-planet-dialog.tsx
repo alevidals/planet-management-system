@@ -24,6 +24,7 @@ import type { InsertPlanet, Planet } from "@/lib/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { IconPlus, IconTrash } from "@tabler/icons-react";
 import { useSetAtom, useStore } from "jotai";
+import { useRouter } from "next/navigation";
 import { type Dispatch, type SetStateAction, useEffect } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 
@@ -34,6 +35,8 @@ type Props = {
 
 export function AddPlanetDialog(props: Props) {
   const { isOpen, setIsOpen } = props;
+
+  const router = useRouter();
 
   const setPlanets = useSetAtom(planetsAtom, {
     store: useStore(),
@@ -109,9 +112,12 @@ export function AddPlanetDialog(props: Props) {
           gender: undefined,
         })) ?? [],
     };
+
     setPlanets((prev) => [...(prev ?? []), planet]);
-    form.reset();
+
+    router.push(`/planets/${planet.id}`);
     setIsOpen(false);
+    form.reset();
   }
 
   return (
