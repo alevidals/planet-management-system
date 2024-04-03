@@ -1,7 +1,7 @@
 import { HeaderNav } from "@/components/header-nav";
 import { Heading } from "@/components/heading";
+import { AddPlanetButton } from "@/components/ui/add-planet-button";
 import { Button } from "@/components/ui/button";
-import { HoverBorderGradient } from "@/components/ui/hover-border-gradient";
 import {
   Sheet,
   SheetContent,
@@ -41,14 +41,10 @@ export function HeaderSheet() {
         <div className="grow">
           <HeaderNav onClick={() => setIsOpen(false)} />
         </div>
-        <HoverBorderGradient
-          containerClassName="rounded-lg mt-4 w-full"
-          className="font-semibold md:hidden w-full bg-background"
-          as={Button}
-          onClick={() => console.log("// TODO")}
-        >
-          Add planet
-        </HoverBorderGradient>
+        <AddPlanetButton
+          containerClassName="w-full"
+          className="w-full md:hidden"
+        />
       </SheetContent>
     </Sheet>
   );

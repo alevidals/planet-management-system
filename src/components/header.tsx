@@ -1,16 +1,13 @@
 "use client";
 
-import { AddPlanetDialog } from "@/components/add-planet-dialog";
 import { HeaderNav } from "@/components/header-nav";
 import { HeaderSheet } from "@/components/header-sheet";
 import { Heading } from "@/components/heading";
-import { Button } from "@/components/ui/button";
-import { HoverBorderGradient } from "@/components/ui/hover-border-gradient";
+import { AddPlanetButton } from "@/components/ui/add-planet-button";
 import { cn } from "@/lib/utils";
 import { IconPlanet } from "@tabler/icons-react";
 import localFont from "next/font/local";
 import Link from "next/link";
-import { useState } from "react";
 
 const swFont = localFont({
   src: "../../public/fonts/aurebesh.otf",
@@ -18,8 +15,6 @@ const swFont = localFont({
 });
 
 export function Header() {
-  const [isOpenAddPlanetDialog, setIsOpenAddPlanetDialog] = useState(false);
-
   return (
     <header className="border bg-default-100 p-3 rounded-xl mb-4 flex items-center justify-between text-foreground h-16">
       <Link href="/" className="flex items-center gap-x-3">
@@ -38,21 +33,9 @@ export function Header() {
         <div className="hidden md:block">
           <HeaderNav />
         </div>
-
-        <HoverBorderGradient
-          containerClassName="rounded-lg"
-          className="font-semibold hidden md:inline-block bg-background"
-          as={Button}
-          onClick={() => setIsOpenAddPlanetDialog(true)}
-        >
-          Add planet
-        </HoverBorderGradient>
+        <AddPlanetButton className="hidden md:inline-block" />
       </div>
       <HeaderSheet />
-      <AddPlanetDialog
-        isOpen={isOpenAddPlanetDialog}
-        setIsOpen={setIsOpenAddPlanetDialog}
-      />
     </header>
   );
 }
