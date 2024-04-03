@@ -13,7 +13,7 @@ const swFont = localFont({
 export default function Home() {
   return (
     <main>
-      <div className="h-[40rem] w-full rounded-md flex md:items-center md:justify-center antialiased relative">
+      <div className="h-[30rem] w-full rounded-md flex md:items-center md:justify-center antialiased relative">
         <Spotlight
           className="-top-40 left-0 md:left-60 md:-top-20"
           fill="white"
