@@ -1,8 +1,14 @@
 import { AddPlanetButton } from "@/components/ui/add-planet-button";
 import { fireEvent, render } from "@testing-library/react";
-import { describe, expect, test } from "vitest";
+import { beforeAll, describe, expect, test, vi } from "vitest";
 
 describe("Add planet button tests", () => {
+  beforeAll(() => {
+    vi.mock("next/navigation", () => ({
+      useRouter: () => vi.fn(),
+    }));
+  });
+
   test("should render the button", () => {
     const screen = render(<AddPlanetButton />);
 

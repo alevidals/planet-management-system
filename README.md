@@ -54,3 +54,9 @@
     ```sh
     pnpm run test:integration
     ```
+
+- E2E tests. (You can use `npm` or `yarn` instead of `pnpm` if you like)
+
+    ```sh
+    pnpm run test:e2e
+    ```
