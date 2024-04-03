@@ -48,3 +48,9 @@
     ```sh
     pnpm run test:unit
     ```
+
+- Integration tests. (You can use `npm` or `yarn` instead of `pnpm` if you like)
+
+    ```sh
+    pnpm run test:integration
+    ```
