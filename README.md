@@ -41,3 +41,10 @@
     ```sh
     pnpm run dev
     ```
+
+## Testing
+- Unit tests. (You can use `npm` or `yarn` instead of `pnpm` if you like)
+
+    ```sh
+    pnpm run test:unit
+    ```
