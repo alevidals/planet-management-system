@@ -113,7 +113,7 @@ export function AddPlanetDialog(props: Props) {
 
     setPlanets((prev) => [...(prev ?? []), planet]);
 
-    router.push(`/planets/${planet.id}`);
+    router.replace(`/planets/${planet.id}`);
     setIsOpen(false);
     form.reset();
   }
