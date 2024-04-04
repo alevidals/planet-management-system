@@ -1,9 +1,5 @@
 <img src="./src/app/favicon.ico" alt="drawing" width="100"/>
 
-
-
-
-
 # To start
 
 ## Prerequisites
@@ -27,6 +23,9 @@
     ```
 
 ## Installation  
+
+> If you are going to use a package manager other than "pnpm" run this command before you begin `rm -rf node_modules && rm pnpm-lock.yaml`
+
 1. Clone the repository
     ```sh
     git clone https://github.com/alevidals/pms-codetest.git
@@ -59,4 +58,16 @@
 
     ```sh
     pnpm run test:e2e
+    ```
+
+## Docker
+
+1. Build the container
+    ```sh
+    docker build -t <tag>
+    ```
+
+2. Run the container
+    ```sh
+    docker run -p 3000:3000 <tag>
     ```
