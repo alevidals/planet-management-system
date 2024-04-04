@@ -1,5 +1,25 @@
 <img src="./src/app/favicon.ico" alt="drawing" width="100"/>
 
+<details>
+<summary>Table of contents</summary>
+
+- [Screenshots](#screenshots)
+- [To start](#to-start)
+  - [Prerequisites](#prerequisites)
+  - [Installation](#installation)
+  - [Testing](#testing)
+  - [Docker](#docker)
+
+</details>
+
+
+----
+
+# Screenshots
+
+![Desktop screenshot](./assets/mock-dk.png)
+![Mobile screenshot](./assets/mock-mb.png)
+
 # To start
 
 ## Prerequisites
