@@ -8,7 +8,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { ORDER_FIELDS } from "@/lib/constants";
+import { DEBOUNCE_TIME, ORDER_FIELDS } from "@/lib/constants";
 import type { Order, OrderByField } from "@/lib/types";
 import { cn, getHref } from "@/lib/utils";
 import { IconEraser, IconFilter } from "@tabler/icons-react";
@@ -33,7 +33,7 @@ export function PlanetsListsFilter() {
       });
 
       router.replace(href);
-    }, 500);
+    }, DEBOUNCE_TIME);
 
     return () => clearTimeout(timeout);
   }, [search]);
