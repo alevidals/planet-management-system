@@ -128,19 +128,19 @@ export function PlanetsList({ planets: initialPlanets }: Props) {
           </div>
         </div>
       ) : (
-        <div className="flex items-center justify-center h-96 mx-auto max-w-xl text-balance text-center">
+        <div className="flex flex-col items-center justify-center h-96 mx-auto max-w-xl text-balance text-center">
           <p className="text-lg">
             "Looks like the Force isn't strong with this search! Try altering
             your parameters or explore our galaxy of options. May the results be
             with you!" 🌟🚀
-            <HoverBorderGradient
-              containerClassName="rounded-lg mx-auto mt-4"
-              as={Link}
-              href="/planets"
-            >
-              Clear filters
-            </HoverBorderGradient>
           </p>
+          <HoverBorderGradient
+            containerClassName="rounded-lg mx-auto mt-4"
+            as={Link}
+            href="/planets"
+          >
+            Clear filters
+          </HoverBorderGradient>
         </div>
       )}
     </>
