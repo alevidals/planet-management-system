@@ -18,6 +18,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { useToast } from "@/components/ui/use-toast";
 import { planetsAtom } from "@/lib/atoms";
 import { insertPlanetSchema } from "@/lib/schemas";
 import type { InsertPlanet, Planet } from "@/lib/types";
@@ -37,6 +38,8 @@ export function AddPlanetDialog(props: Props) {
   const { isOpen, setIsOpen } = props;
 
   const router = useRouter();
+
+  const { toast } = useToast();
 
   const setPlanets = useSetAtom(planetsAtom);
 
@@ -116,6 +119,9 @@ export function AddPlanetDialog(props: Props) {
     router.replace(`/planets/${planet.id}`);
     setIsOpen(false);
     form.reset();
+    toast({
+      title: "Planet added successfully",
+    });
   }
 
   return (

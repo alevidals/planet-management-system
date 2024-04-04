@@ -7,10 +7,8 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { planetsAtom } from "@/lib/atoms";
 import type { Planet } from "@/lib/types";
 import { IconDots, IconEdit, IconTrash } from "@tabler/icons-react";
-import { useSetAtom } from "jotai";
 import { useState } from "react";
 
 type Props = {
@@ -22,12 +20,6 @@ export function PlanetDropdownMenu(props: Props) {
 
   const [isOpenDeleteDialog, setIsOpenDeleteDialog] = useState(false);
   const [isOpenEditDialog, setIsOpenEditDialog] = useState(false);
-
-  const setPlanets = useSetAtom(planetsAtom);
-
-  function handleDeletePlanet() {
-    setPlanets((prev) => prev?.filter((p) => p.id !== planet.id) ?? []);
-  }
 
   return (
     <>
@@ -63,9 +55,8 @@ export function PlanetDropdownMenu(props: Props) {
         </DropdownMenuContent>
       </DropdownMenu>
       <DeletePlanetDialog
-        handleDeletePlanet={handleDeletePlanet}
         isOpen={isOpenDeleteDialog}
-        planetName={planet.name}
+        planet={planet}
         setIsOpen={setIsOpenDeleteDialog}
       />
       <EditPlanetDialog

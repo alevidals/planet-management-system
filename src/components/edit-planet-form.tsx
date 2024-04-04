@@ -9,6 +9,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { useToast } from "@/components/ui/use-toast";
 import { planetsAtom } from "@/lib/atoms";
 import { updatePlanetSchema } from "@/lib/schemas";
 import type { Planet, UpdatePlanet } from "@/lib/types";
@@ -24,6 +25,7 @@ type Props = {
 
 export function EditPlanetForm(props: Props) {
   const { planet, setIsOpen } = props;
+  const { toast } = useToast();
 
   const [planets, setPlanets] = useAtom(planetsAtom);
 
@@ -86,6 +88,9 @@ export function EditPlanetForm(props: Props) {
 
     setPlanets(newPlanets ?? []);
     setIsOpen(false);
+    toast({
+      title: "Planet updated successfully",
+    });
   }
 
   return (
