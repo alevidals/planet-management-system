@@ -9,6 +9,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { useMediaQuery } from "@/hooks/use-media-query";
 import { planetsAtom } from "@/lib/atoms";
 import {
   IconGenderFemale,
@@ -57,6 +58,8 @@ function getGenderInfo(gender: string | undefined) {
 }
 
 export default function PlanetsPage({ params }: Props) {
+  const isDesktop = useMediaQuery("(min-width: 768px)");
+
   const planets = useAtomValue(planetsAtom, {
     store: useStore(),
   });
@@ -120,7 +123,9 @@ export default function PlanetsPage({ params }: Props) {
           <Image
             src="/planet.webp"
             alt="planet"
-            fill
+            width={isDesktop ? 480 : 384}
+            height={isDesktop ? 480 : 384}
+            priority
             className="opacity-50 group-hover:opacity-100 duration-500"
           />
           <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
