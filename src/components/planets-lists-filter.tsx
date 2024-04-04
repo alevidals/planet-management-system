@@ -13,7 +13,7 @@ import type { Order, OrderByField } from "@/lib/types";
 import { cn, getHref } from "@/lib/utils";
 import { IconEraser, IconFilter } from "@tabler/icons-react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export function PlanetsListsFilter() {
   const router = useRouter();
@@ -21,8 +21,23 @@ export function PlanetsListsFilter() {
   const pathname = usePathname();
 
   const [isOpen, setIsOpen] = useState(false);
+  const [search, setSearch] = useState(searchParams.get("search") ?? "");
 
-  const search = searchParams.get("search") ?? "";
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      const href = getHref({
+        action: "set",
+        searchParams,
+        pathname,
+        paramsToSet: [{ search }],
+      });
+
+      router.replace(href);
+    }, 500);
+
+    return () => clearTimeout(timeout);
+  }, [search]);
+
   const orderBy = (searchParams.get("orderBy") as OrderByField) ?? "";
   const order = (searchParams.get("order") as Order) ?? "asc";
 
@@ -49,16 +64,7 @@ export function PlanetsListsFilter() {
             className="h-12"
             placeholder="Search planets"
             value={search}
-            onChange={(event) => {
-              const href = getHref({
-                action: "set",
-                searchParams,
-                pathname,
-                paramsToSet: [{ search: event.target.value }],
-              });
-
-              router.replace(href);
-            }}
+            onChange={(event) => setSearch(event.target.value)}
           />
           <Select
             value={orderBy}
