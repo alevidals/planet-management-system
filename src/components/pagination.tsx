@@ -25,7 +25,7 @@ type GetPagesArgs = {
   totalPageNumbers: number;
 };
 
-function getPages(args: GetPagesArgs) {
+export function getPages(args: GetPagesArgs) {
   const { currentPage, totalPages, siblingCount, totalPageNumbers } = args;
 
   if (totalPageNumbers >= totalPages) {
