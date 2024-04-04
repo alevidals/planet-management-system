@@ -8,7 +8,7 @@ import { HoverBorderGradient } from "@/components/ui/hover-border-gradient";
 import { planetsAtom } from "@/lib/atoms";
 import { ITEMS_PER_PAGE } from "@/lib/constants";
 import type { Order, OrderByField, Planet } from "@/lib/types";
-import { useAtom, useStore } from "jotai";
+import { useAtom } from "jotai";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useEffect } from "react";
@@ -20,9 +20,7 @@ type Props = {
 export function PlanetsList({ planets: initialPlanets }: Props) {
   const searchParams = useSearchParams();
 
-  const [planets, setPlanets] = useAtom(planetsAtom, {
-    store: useStore(),
-  });
+  const [planets, setPlanets] = useAtom(planetsAtom);
 
   useEffect(() => {
     if (localStorage.getItem("planets") === null) {

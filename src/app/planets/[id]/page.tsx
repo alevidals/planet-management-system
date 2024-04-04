@@ -1,6 +1,5 @@
 "use client";
 
-import { Header } from "@/components/header";
 import { Heading } from "@/components/heading";
 import {
   Card,
@@ -18,7 +17,7 @@ import {
   IconQuestionMark,
   IconRobot,
 } from "@tabler/icons-react";
-import { useAtomValue, useStore } from "jotai";
+import { useAtomValue } from "jotai";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import type { ReactNode } from "react";
@@ -60,14 +59,11 @@ function getGenderInfo(gender: string | undefined) {
 export default function PlanetsPage({ params }: Props) {
   const isDesktop = useMediaQuery("(min-width: 768px)");
 
-  const planets = useAtomValue(planetsAtom, {
-    store: useStore(),
-  });
+  const planets = useAtomValue(planetsAtom);
 
   if (!planets) {
     return (
-      <main className="py-4">
-        <Header />
+      <main>
         <div className="flex items-center justify-center h-96">
           <p className="text-xl font-bold">Loading...</p>
         </div>

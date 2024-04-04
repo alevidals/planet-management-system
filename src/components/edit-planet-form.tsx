@@ -14,7 +14,7 @@ import { updatePlanetSchema } from "@/lib/schemas";
 import type { Planet, UpdatePlanet } from "@/lib/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { IconPlus, IconTrash } from "@tabler/icons-react";
-import { useAtom, useStore } from "jotai";
+import { useAtom } from "jotai";
 import { useFieldArray, useForm } from "react-hook-form";
 
 type Props = {
@@ -25,9 +25,7 @@ type Props = {
 export function EditPlanetForm(props: Props) {
   const { planet, setIsOpen } = props;
 
-  const [planets, setPlanets] = useAtom(planetsAtom, {
-    store: useStore(),
-  });
+  const [planets, setPlanets] = useAtom(planetsAtom);
 
   const form = useForm<UpdatePlanet>({
     resolver: zodResolver(updatePlanetSchema),

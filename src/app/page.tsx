@@ -6,7 +6,7 @@ import localFont from "next/font/local";
 import Link from "next/link";
 
 const swFont = localFont({
-  src: "../../../public/fonts/aurebesh.otf",
+  src: "../../public/fonts/aurebesh.otf",
   display: "swap",
 });
 

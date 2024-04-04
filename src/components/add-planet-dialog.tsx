@@ -23,7 +23,7 @@ import { insertPlanetSchema } from "@/lib/schemas";
 import type { InsertPlanet, Planet } from "@/lib/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { IconPlus, IconTrash } from "@tabler/icons-react";
-import { useSetAtom, useStore } from "jotai";
+import { useSetAtom } from "jotai";
 import { useRouter } from "next/navigation";
 import { type Dispatch, type SetStateAction, useEffect } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
@@ -38,9 +38,7 @@ export function AddPlanetDialog(props: Props) {
 
   const router = useRouter();
 
-  const setPlanets = useSetAtom(planetsAtom, {
-    store: useStore(),
-  });
+  const setPlanets = useSetAtom(planetsAtom);
 
   const form = useForm<InsertPlanet>({
     resolver: zodResolver(insertPlanetSchema),

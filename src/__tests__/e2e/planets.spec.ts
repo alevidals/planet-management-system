@@ -44,9 +44,7 @@ test("should filter by deserts terrains", async ({ page }) => {
   expect(numberOfCards).toBe(8);
 });
 
-test("should create a new planet and show it on the last page", async ({
-  page,
-}) => {
+test("should create a new planet and show it on the list", async ({ page }) => {
   await page.goto("http://localhost:3000/");
 
   await page.getByRole("link", { name: "View planets" }).click();
@@ -65,15 +63,15 @@ test("should create a new planet and show it on the last page", async ({
   await page.getByRole("button", { name: "Save changes" }).click();
 
   await page.getByRole("link", { name: "Planets" }).click();
-  await page.getByRole("link", { name: "7", exact: true }).click();
 
-  await page
-    .getByRole("heading", { name: "SeedTag" })
-    .waitFor({ state: "visible" });
+  await page.getByRole("button", { name: "Show filters" }).click();
 
-  const isVisible = await page
-    .getByRole("heading", { name: "SeedTag" })
-    .isVisible();
+  await page.getByPlaceholder("Search planets").click();
+  await page.getByPlaceholder("Search planets").fill("SeedTag");
+
+  await page.getByText("SeedTag").first().waitFor({ state: "visible" });
+
+  const isVisible = await page.getByText("SeedTag").isVisible();
 
   expect(isVisible).toBe(true);
 });

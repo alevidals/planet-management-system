@@ -5,7 +5,7 @@ import localFont from "next/font/local";
 import Link from "next/link";
 
 const swFont = localFont({
-  src: "../../public/fonts/aurebesh.otf",
+  src: "../../../../public/fonts/aurebesh.otf",
   display: "swap",
 });
 
@@ -23,17 +23,20 @@ export default function NotFound() {
       </Heading>
       <Heading
         as="h3"
-        className={cn(swFont.className, "text-4xl font-extrabold text-center ")}
+        className={cn(swFont.className, "text-4xl font-extrabold text-center")}
       >
         Not found
       </Heading>
+      <p className="text-center text-xl">
+        In this galaxy far, far away... no planet is named like this one
+      </p>
       <HoverBorderGradient
         containerClassName="rounded-lg mx-auto mt-12"
         className="font-semibold bg-background"
         as={Link}
-        href="/"
+        href="/planets"
       >
-        Back to home
+        Back to planets
       </HoverBorderGradient>
     </div>
   );
