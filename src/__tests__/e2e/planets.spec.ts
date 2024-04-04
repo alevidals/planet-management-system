@@ -10,6 +10,7 @@ test("should create a new planet and navigate into the planet view", async ({
   await page.getByRole("link", { name: "View planets" }).click();
   await page.getByRole("button", { name: "Add planet" }).click();
 
+  await page.getByLabel("Name").click();
   await page.getByLabel("Name").fill("SeedTag");
   await page.getByLabel("Diameter").click();
   await page.getByLabel("Diameter").fill("1000");
