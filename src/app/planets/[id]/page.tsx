@@ -193,7 +193,7 @@ export default function PlanetsPage({ params }: Props) {
             })}
           </div>
         ) : (
-          <p className="text-center">There is no resident in this planet.</p>
+          <p className="text-center">There are no residents on this planet.</p>
         )}
       </div>
     </main>
