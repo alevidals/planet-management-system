@@ -12,7 +12,8 @@ import {
 import { cn } from "@/lib/utils";
 import { IconMenu } from "@tabler/icons-react";
 import localFont from "next/font/local";
-import { useState } from "react";
+import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 
 const swFont = localFont({
   src: "../../public/fonts/aurebesh.otf",
@@ -21,6 +22,11 @@ const swFont = localFont({
 
 export function HeaderSheet() {
   const [isOpen, setIsOpen] = useState(false);
+  const pathname = usePathname();
+
+  useEffect(() => {
+    setIsOpen(false);
+  }, [pathname]);
 
   return (
     <Sheet open={isOpen} onOpenChange={setIsOpen}>
@@ -39,7 +45,7 @@ export function HeaderSheet() {
         </SheetHeader>
 
         <div className="grow">
-          <HeaderNav onClick={() => setIsOpen(false)} />
+          <HeaderNav />
         </div>
         <AddPlanetButton
           containerClassName="w-full"
