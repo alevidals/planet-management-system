@@ -1,4 +1,4 @@
-import { HeaderNav } from "@/components/header-nav";
+import { HeaderNav } from "@/components/header/header-nav";
 import { Heading } from "@/components/heading";
 import { AddPlanetButton } from "@/components/ui/add-planet-button";
 import { Button } from "@/components/ui/button";
@@ -16,7 +16,7 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
 const swFont = localFont({
-  src: "../../public/fonts/aurebesh.otf",
+  src: "../../../public/fonts/aurebesh.otf",
   display: "swap",
 });
 

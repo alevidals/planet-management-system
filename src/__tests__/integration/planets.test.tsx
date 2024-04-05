@@ -1,5 +1,5 @@
-import { PlanetsList } from "@/components/planets-list";
-import { PlanetsListsFilter } from "@/components/planets-lists-filter";
+import { PlanetsList } from "@/components/planets/planets-list";
+import { PlanetsListsFilter } from "@/components/planets/planets-lists-filter";
 import { render } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { beforeAll, describe, expect, test, vi } from "vitest";

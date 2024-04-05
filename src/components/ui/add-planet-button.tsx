@@ -1,4 +1,4 @@
-import { AddPlanetDialog } from "@/components/add-planet-dialog";
+import { AddPlanetDialog } from "@/components/planets/add-planet-dialog";
 import { Button } from "@/components/ui/button";
 import { HoverBorderGradient } from "@/components/ui/hover-border-gradient";
 import { cn } from "@/lib/utils";

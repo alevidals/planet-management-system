@@ -1,7 +1,7 @@
 "use client";
 
-import { HeaderNav } from "@/components/header-nav";
-import { HeaderSheet } from "@/components/header-sheet";
+import { HeaderNav } from "@/components/header/header-nav";
+import { HeaderSheet } from "@/components/header/header-sheet";
 import { Heading } from "@/components/heading";
 import { AddPlanetButton } from "@/components/ui/add-planet-button";
 import { cn } from "@/lib/utils";
@@ -10,7 +10,7 @@ import localFont from "next/font/local";
 import Link from "next/link";
 
 const swFont = localFont({
-  src: "../../public/fonts/aurebesh.otf",
+  src: "../../../public/fonts/aurebesh.otf",
   display: "swap",
 });
 

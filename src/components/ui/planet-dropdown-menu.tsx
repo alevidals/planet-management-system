@@ -1,5 +1,5 @@
-import { DeletePlanetDialog } from "@/components/delete-planet-dialog";
-import { EditPlanetDialog } from "@/components/edit-planet-dialog";
+import { DeletePlanetDialog } from "@/components/planets/delete-planet-dialog";
+import { EditPlanetDialog } from "@/components/planets/edit-planet-dialog";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,

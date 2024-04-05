@@ -1,14 +1,15 @@
 "use client";
 
 import { Pagination } from "@/components/pagination";
-import { PlanetCard } from "@/components/planet-card";
-import { HoverBorderGradient } from "@/components/ui/hover-border-gradient";
+import { EmptyPlanetsList } from "@/components/planets/empty-planets-list";
+import { PageOutOfBound } from "@/components/planets/page-out-of-bound";
+import { PlanetCard } from "@/components/planets/planet-card";
+import { PlanetsNotFound } from "@/components/planets/planets-not-found";
 
 import { planetsAtom } from "@/lib/atoms";
 import { ITEMS_PER_PAGE } from "@/lib/constants";
 import type { Order, OrderByField, Planet } from "@/lib/types";
 import { useAtom } from "jotai";
-import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 
@@ -86,65 +87,6 @@ function filterAndSortPlanets(args: FilterAndSortPlanetsArgs) {
     totalItems,
     totalPages,
   };
-}
-
-function PlanetsNotFound() {
-  return (
-    <>
-      <div className="flex flex-col items-center justify-center h-96 mx-auto max-w-xl text-balance text-center">
-        <p className="text-lg">
-          "Looks like the Force isn't strong with this search! Try altering your
-          parameters or explore our galaxy of options. May the results be with
-          you!" 🌟🚀
-        </p>
-        <HoverBorderGradient
-          containerClassName="rounded-lg mx-auto mt-4"
-          as={Link}
-          href="/planets"
-        >
-          Clear filters
-        </HoverBorderGradient>
-      </div>
-    </>
-  );
-}
-
-function EmptyPlanetsList() {
-  return (
-    <>
-      <div className="flex flex-col items-center justify-center h-96 mx-auto max-w-xl text-balance text-center">
-        <p className="text-lg">
-          "Exploring a galaxy far, far away... But for now, our planetary
-          itinerary is under construction. Stay tuned as we navigate the stars
-          to bring you the best of the galaxy!" 🌟🚀
-        </p>
-      </div>
-    </>
-  );
-}
-
-function PageOutOfBound() {
-  return (
-    <>
-      <div className="flex items-center justify-center h-96 mx-auto max-w-xl text-balance text-center">
-        <div>
-          <p className="text-lg">
-            "Looks like you've traveled too far into the Unknown Regions of our
-            search galaxy! Navigate back to familiar territories or use the
-            Force to refine your search coordinates. Remember, even Jedi must
-            stay within the boundaries of our search database." 🌌✨
-          </p>
-          <HoverBorderGradient
-            containerClassName="rounded-lg mx-auto mt-4"
-            as={Link}
-            href="/planets"
-          >
-            Back to first page
-          </HoverBorderGradient>
-        </div>
-      </div>
-    </>
-  );
 }
 
 export function PlanetsList({ planets: initialPlanets }: Props) {

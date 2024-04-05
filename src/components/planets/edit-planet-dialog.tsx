@@ -1,4 +1,4 @@
-import { EditPlanetForm } from "@/components/edit-planet-form";
+import { EditPlanetForm } from "@/components/planets/edit-planet-form";
 import {
   Dialog,
   DialogContent,
