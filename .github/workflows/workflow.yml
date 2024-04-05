@@ -9,13 +9,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Setup Biome
-        uses: biomejs/setup-biome@v2
+      - uses: pnpm/action-setup@v3
         with:
-          version: latest
+          version: 8
+          run_install: true 
       - name: Run Biome
         working-directory: ./src
-        run: biome ci .
+        run: pnpm ci:biome
   tests:
     needs: biome
     runs-on: ubuntu-latest
