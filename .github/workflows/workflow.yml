@@ -15,7 +15,7 @@ jobs:
           run_install: true 
       - name: Run Biome
         working-directory: ./src
-        run: pnpm ci:biome
+        run: pnpm biome
   tests:
     needs: biome
     runs-on: ubuntu-latest

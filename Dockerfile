@@ -13,6 +13,7 @@ COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
 ENV NEXT_TELEMETRY_DISABLED 1
+ENV BUILD_STANDALONE true
 
 RUN corepack enable pnpm && pnpm run build
 

@@ -13,7 +13,7 @@
     "lint:fix": "biome lint src/ --apply",
     "format": "biome format ./src",
     "format:fix": "biome format ./src --write",
-    "ci:biome": "biome ci ."
+    "biome": "biome ci ."
   },
   "dependencies": {
     "@hookform/resolvers": "3.3.4",
