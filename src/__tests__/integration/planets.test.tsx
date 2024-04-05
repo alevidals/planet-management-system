@@ -1,4 +1,5 @@
 import { PlanetsList } from "@/components/planets-list";
+import { PlanetsListsFilter } from "@/components/planets-lists-filter";
 import { render } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { beforeAll, describe, expect, test, vi } from "vitest";
@@ -61,7 +62,12 @@ describe("Planets page test", () => {
   });
 
   test("should display the new name after edit", async () => {
-    const screen = render(<PlanetsList planets={planets} />);
+    const screen = render(
+      <div>
+        <PlanetsListsFilter />
+        <PlanetsList planets={planets} />
+      </div>,
+    );
     const buttons = screen.getAllByRole("button");
     const firstPlanetDropdown = buttons[1];
 

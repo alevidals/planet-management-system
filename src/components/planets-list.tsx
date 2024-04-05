@@ -2,7 +2,6 @@
 
 import { Pagination } from "@/components/pagination";
 import { PlanetCard } from "@/components/planet-card";
-import { PlanetsListsFilter } from "@/components/planets-lists-filter";
 import { HoverBorderGradient } from "@/components/ui/hover-border-gradient";
 
 import { planetsAtom } from "@/lib/atoms";
@@ -17,91 +16,16 @@ type Props = {
   planets: Planet[];
 };
 
-function PlanetsNotFound() {
-  return (
-    <>
-      <PlanetsListsFilter />
-      <div className="flex flex-col items-center justify-center h-96 mx-auto max-w-xl text-balance text-center">
-        <p className="text-lg">
-          "Looks like the Force isn't strong with this search! Try altering your
-          parameters or explore our galaxy of options. May the results be with
-          you!" 🌟🚀
-        </p>
-        <HoverBorderGradient
-          containerClassName="rounded-lg mx-auto mt-4"
-          as={Link}
-          href="/planets"
-        >
-          Clear filters
-        </HoverBorderGradient>
-      </div>
-    </>
-  );
-}
+type FilterAndSortPlanetsArgs = {
+  planets: Planet[];
+  search: string;
+  orderBy: OrderByField;
+  order: Order;
+  page: number;
+};
 
-function EmptyPlanetsList() {
-  return (
-    <>
-      <PlanetsListsFilter />
-      <div className="flex flex-col items-center justify-center h-96 mx-auto max-w-xl text-balance text-center">
-        <p className="text-lg">
-          "Exploring a galaxy far, far away... But for now, our planetary
-          itinerary is under construction. Stay tuned as we navigate the stars
-          to bring you the best of the galaxy!" 🌟🚀
-        </p>
-      </div>
-    </>
-  );
-}
-
-function PageOutOfBound() {
-  return (
-    <>
-      <PlanetsListsFilter />
-      <div className="flex items-center justify-center h-96 mx-auto max-w-xl text-balance text-center">
-        <div>
-          <p className="text-lg">
-            "Looks like you've traveled too far into the Unknown Regions of our
-            search galaxy! Navigate back to familiar territories or use the
-            Force to refine your search coordinates. Remember, even Jedi must
-            stay within the boundaries of our search database." 🌌✨
-          </p>
-          <HoverBorderGradient
-            containerClassName="rounded-lg mx-auto mt-4"
-            as={Link}
-            href="/planets"
-          >
-            Back to first page
-          </HoverBorderGradient>
-        </div>
-      </div>
-    </>
-  );
-}
-
-export function PlanetsList({ planets: initialPlanets }: Props) {
-  const searchParams = useSearchParams();
-
-  const [planets, setPlanets] = useAtom(planetsAtom);
-
-  useEffect(() => {
-    if (localStorage.getItem("planets") === null) {
-      setPlanets(initialPlanets);
-    }
-  }, []);
-
-  const search = searchParams.get("search") ?? "";
-  const page = searchParams.get("page") ? Number(searchParams.get("page")) : 1;
-  const orderBy = (searchParams.get("orderBy") as OrderByField) ?? "";
-  const order = (searchParams.get("order") as Order) ?? "asc";
-
-  if (!planets) {
-    return (
-      <div className="flex items-center justify-center h-96">
-        <p className="text-xl font-bold">Loading...</p>
-      </div>
-    );
-  }
+function filterAndSortPlanets(args: FilterAndSortPlanetsArgs) {
+  const { planets, search, orderBy, order, page } = args;
 
   let filteredAndSortedPlanets = [...(planets ?? [])];
 
@@ -157,6 +81,105 @@ export function PlanetsList({ planets: initialPlanets }: Props) {
     page * ITEMS_PER_PAGE,
   );
 
+  return {
+    filteredAndSortedPlanets,
+    totalItems,
+    totalPages,
+  };
+}
+
+function PlanetsNotFound() {
+  return (
+    <>
+      <div className="flex flex-col items-center justify-center h-96 mx-auto max-w-xl text-balance text-center">
+        <p className="text-lg">
+          "Looks like the Force isn't strong with this search! Try altering your
+          parameters or explore our galaxy of options. May the results be with
+          you!" 🌟🚀
+        </p>
+        <HoverBorderGradient
+          containerClassName="rounded-lg mx-auto mt-4"
+          as={Link}
+          href="/planets"
+        >
+          Clear filters
+        </HoverBorderGradient>
+      </div>
+    </>
+  );
+}
+
+function EmptyPlanetsList() {
+  return (
+    <>
+      <div className="flex flex-col items-center justify-center h-96 mx-auto max-w-xl text-balance text-center">
+        <p className="text-lg">
+          "Exploring a galaxy far, far away... But for now, our planetary
+          itinerary is under construction. Stay tuned as we navigate the stars
+          to bring you the best of the galaxy!" 🌟🚀
+        </p>
+      </div>
+    </>
+  );
+}
+
+function PageOutOfBound() {
+  return (
+    <>
+      <div className="flex items-center justify-center h-96 mx-auto max-w-xl text-balance text-center">
+        <div>
+          <p className="text-lg">
+            "Looks like you've traveled too far into the Unknown Regions of our
+            search galaxy! Navigate back to familiar territories or use the
+            Force to refine your search coordinates. Remember, even Jedi must
+            stay within the boundaries of our search database." 🌌✨
+          </p>
+          <HoverBorderGradient
+            containerClassName="rounded-lg mx-auto mt-4"
+            as={Link}
+            href="/planets"
+          >
+            Back to first page
+          </HoverBorderGradient>
+        </div>
+      </div>
+    </>
+  );
+}
+
+export function PlanetsList({ planets: initialPlanets }: Props) {
+  const searchParams = useSearchParams();
+
+  const [planets, setPlanets] = useAtom(planetsAtom);
+
+  useEffect(() => {
+    if (localStorage.getItem("planets") === null) {
+      setPlanets(initialPlanets);
+    }
+  }, []);
+
+  const search = searchParams.get("search") ?? "";
+  const page = searchParams.get("page") ? Number(searchParams.get("page")) : 1;
+  const orderBy = (searchParams.get("orderBy") as OrderByField) ?? "";
+  const order = (searchParams.get("order") as Order) ?? "asc";
+
+  if (!planets) {
+    return (
+      <div className="flex items-center justify-center h-96">
+        <p className="text-xl font-bold">Loading...</p>
+      </div>
+    );
+  }
+
+  const { filteredAndSortedPlanets, totalItems, totalPages } =
+    filterAndSortPlanets({
+      planets,
+      search,
+      orderBy,
+      order,
+      page,
+    });
+
   if (
     totalPages !== 0 &&
     (page > totalPages || filteredAndSortedPlanets.length === 0)
@@ -167,7 +190,6 @@ export function PlanetsList({ planets: initialPlanets }: Props) {
   if (filteredAndSortedPlanets.length > 0) {
     return (
       <>
-        <PlanetsListsFilter />
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
           {filteredAndSortedPlanets.map((planet) => (
             <PlanetCard planet={planet} key={planet.id} />

@@ -12,6 +12,13 @@ type Props = {
   params: { id: string };
 };
 
+const formatter = new Intl.ListFormat("en", {
+  style: "long",
+  type: "conjunction",
+});
+
+const numberFormatter = new Intl.NumberFormat("en");
+
 export default function PlanetsPage({ params }: Props) {
   const isDesktop = useMediaQuery("(min-width: 768px)");
 
@@ -34,13 +41,6 @@ export default function PlanetsPage({ params }: Props) {
   if (!planet) {
     notFound();
   }
-
-  const formatter = new Intl.ListFormat("en", {
-    style: "long",
-    type: "conjunction",
-  });
-
-  const numberFormatter = new Intl.NumberFormat("en");
 
   const formattedDiameter = numberFormatter.format(planet.diameter);
   const formattedClimates = formatter.format(

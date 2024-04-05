@@ -16,13 +16,13 @@ type Props = {
   planet: Planet;
 };
 
-export function PlanetCard({ planet }: Props) {
-  const listFormatter = new Intl.ListFormat("en", {
-    style: "long",
-    type: "conjunction",
-  });
-  const numberFormatter = new Intl.NumberFormat("en");
+const listFormatter = new Intl.ListFormat("en", {
+  style: "long",
+  type: "conjunction",
+});
+const numberFormatter = new Intl.NumberFormat("en");
 
+export function PlanetCard({ planet }: Props) {
   return (
     <Card className="hover:border-primary overflow-hidden relative">
       <CardHeader className="flex flex-row justify-between items-center space-y-0 gap-x-4">
