@@ -56,9 +56,9 @@ test("should create a new planet and show it on the list", async ({ page }) => {
   await page
     .getByText("NameDiameterClimatesTerrainsResidentsSave changes")
     .click();
-  await page.locator('input[name="climates\\.0\\.climate"]').fill("arid");
-  await page.locator('input[name="terrains\\.0\\.terrain"]').click();
-  await page.locator('input[name="terrains\\.0\\.terrain"]').fill("desert");
+  await page.locator('input[name="climates.0.climate"]').fill("arid");
+  await page.locator('input[name="terrains.0.terrain"]').click();
+  await page.locator('input[name="terrains.0.terrain"]').fill("desert");
   await page.getByRole("button", { name: "Save changes" }).click();
 
   await page

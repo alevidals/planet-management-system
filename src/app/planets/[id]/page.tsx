@@ -1,60 +1,16 @@
 "use client";
 
 import { Heading } from "@/components/heading";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { ResidentCard } from "@/components/resident-card";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import { planetsAtom } from "@/lib/atoms";
-import {
-  IconGenderFemale,
-  IconGenderHermaphrodite,
-  IconGenderMale,
-  IconQuestionMark,
-  IconRobot,
-} from "@tabler/icons-react";
 import { useAtomValue } from "jotai";
 import Image from "next/image";
 import { notFound } from "next/navigation";
-import type { ReactNode } from "react";
 
 type Props = {
   params: { id: string };
 };
-
-function getGenderInfo(gender: string | undefined) {
-  if (!gender)
-    return {
-      name: "unknown",
-      icon: <IconQuestionMark />,
-    };
-
-  if (["male", "female", "hermaphrodite"].includes(gender)) {
-    let icon: ReactNode;
-
-    if (gender === "male") {
-      icon = <IconGenderMale />;
-    } else if (gender === "female") {
-      icon = <IconGenderFemale />;
-    } else {
-      icon = <IconGenderHermaphrodite />;
-    }
-
-    return {
-      name: gender,
-      icon,
-    };
-  }
-
-  return {
-    name: "droid",
-    icon: <IconRobot />,
-  };
-}
 
 export default function PlanetsPage({ params }: Props) {
   const isDesktop = useMediaQuery("(min-width: 768px)");
@@ -148,49 +104,9 @@ export default function PlanetsPage({ params }: Props) {
         </Heading>
         {planet.residents.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mt-2">
-            {planet.residents.map((resident) => {
-              const genderInfo = getGenderInfo(resident.gender);
-
-              return (
-                <Card key={resident.id}>
-                  <CardHeader className="flex flex-row items-center gap-x-4">
-                    <div>{genderInfo.icon}</div>
-                    <div className="break-all">
-                      <CardTitle>{resident.name}</CardTitle>
-                      <CardDescription className="capitalize">
-                        {genderInfo.name}
-                      </CardDescription>
-                    </div>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="flex items-center gap-x-2">
-                      <p className="font-bold">Eye color:</p>
-                      <p>{resident.eyeColor ?? "-"}</p>
-                    </div>
-                    <div className="flex items-center gap-x-2">
-                      <p className="font-bold">Hair color:</p>
-                      <p>{resident.hairColor ?? "-"}</p>
-                    </div>
-                    <div className="flex items-center gap-x-2">
-                      <p className="font-bold">Skin color:</p>
-                      <p>{resident.skinColor ?? "-"}</p>
-                    </div>
-                    <div className="flex items-center gap-x-2">
-                      <p className="font-bold">Height:</p>
-                      <p>{resident.height ?? "-"}</p>
-                    </div>
-                    <div className="flex items-center gap-x-2">
-                      <p className="font-bold">Mass:</p>
-                      <p>{resident.mass ?? "-"}</p>
-                    </div>
-                    <div className="flex items-center gap-x-2">
-                      <p className="font-bold">Birth year</p>
-                      <p>{resident.birthYear ?? "-"}</p>
-                    </div>
-                  </CardContent>
-                </Card>
-              );
-            })}
+            {planet.residents.map((resident) => (
+              <ResidentCard key={resident.id} resident={resident} />
+            ))}
           </div>
         ) : (
           <p className="text-center">There are no residents on this planet.</p>

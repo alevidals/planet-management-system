@@ -4,6 +4,8 @@ import type { z } from "zod";
 
 export type Planet = Awaited<ReturnType<typeof getPlanets>>[number];
 
+export type Resident = Planet["residents"][number];
+
 export type OrderByField =
   | ""
   | "name"
