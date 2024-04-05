@@ -15,7 +15,7 @@ jobs:
           version: latest
       - name: Run Biome
         working-directory: ./src
-        run: biome test
+        run: biome ci .
   tests:
     needs: biome
     runs-on: ubuntu-latest
