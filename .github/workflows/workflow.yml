@@ -1,0 +1,35 @@
+name: Biome and Tests
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+jobs:
+  biome:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Biome
+        uses: biomejs/setup-biome@v2
+        with:
+          version: latest
+      - name: Run Biome
+        working-directory: ./src
+        run: biome test
+  tests:
+    needs: biome
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v3
+        with:
+          version: 8
+          run_install: true
+      - name: Run unit tests
+        run: pnpm test:unit
+      - name: Run integration tests
+        run: pnpm test:integration
+      - name: Install Playwright Browsers
+        run: pnpm exec playwright install --with-deps
+      - name: Run e2e tests
+        run: pnpm test:e2e
