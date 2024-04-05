@@ -1,7 +1,7 @@
 import { expect, test } from "@playwright/test";
 
 test.beforeEach(async ({ page }) => {
-  await page.goto("http://localhost:3000/");
+  await page.goto("/");
 });
 
 test("should create a new planet and navigate into the planet view", async ({
@@ -46,8 +46,6 @@ test("should filter by deserts terrains", async ({ page }) => {
 });
 
 test("should create a new planet and show it on the list", async ({ page }) => {
-  await page.goto("http://localhost:3000/");
-
   await page.getByRole("link", { name: "View planets" }).click();
   await page.getByRole("button", { name: "Add planet" }).click();
 
@@ -63,6 +61,9 @@ test("should create a new planet and show it on the list", async ({ page }) => {
   await page.locator('input[name="terrains\\.0\\.terrain"]').fill("desert");
   await page.getByRole("button", { name: "Save changes" }).click();
 
+  await page
+    .getByRole("link", { name: "Planets" })
+    .waitFor({ state: "visible" });
   await page.getByRole("link", { name: "Planets" }).click();
 
   await page.getByRole("button", { name: "Show filters" }).click();
@@ -80,7 +81,7 @@ test("should create a new planet and show it on the list", async ({ page }) => {
 test("should show a specific message if user navigate to a non-existing page", async ({
   page,
 }) => {
-  await page.goto("http://localhost:3000/planets?page=1000");
+  await page.goto("/planets?page=1000");
 
   await page
     .getByText(
