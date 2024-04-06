@@ -1,8 +1,14 @@
 import { Pagination, getPages } from "@/components/pagination";
 import { render } from "@testing-library/react";
-import { describe, expect, test } from "vitest";
+import { beforeAll, describe, expect, test, vi } from "vitest";
 
 describe("Paginator tests", () => {
+  beforeAll(() => {
+    vi.mock("next/font/local", () => ({
+      default: vi.fn(),
+    }));
+  });
+
   test("should return a valid array of pages", () => {
     const pages = getPages({
       currentPage: 1,

@@ -34,6 +34,10 @@ describe("Planets page test", () => {
       }),
       usePathname: vi.fn(),
     }));
+
+    vi.mock("next/font/local", () => ({
+      default: vi.fn(),
+    }));
   });
 
   test("should display one planet card after delete one", async () => {

@@ -1,4 +1,5 @@
 import { type ClassValue, clsx } from "clsx";
+import localFont from "next/font/local";
 import { twMerge } from "tailwind-merge";
 
 type GetHrefArgs = {
@@ -40,3 +41,8 @@ export function getHref(args: GetHrefArgs) {
   const href = `${pathname}?${params.toString()}`;
   return href;
 }
+
+export const swFont = localFont({
+  src: "../../public/fonts/aurebesh.otf",
+  display: "swap",
+});

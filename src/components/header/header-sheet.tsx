@@ -9,16 +9,10 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { cn } from "@/lib/utils";
+import { cn, swFont } from "@/lib/utils";
 import { IconMenu } from "@tabler/icons-react";
-import localFont from "next/font/local";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-
-const swFont = localFont({
-  src: "../../../public/fonts/aurebesh.otf",
-  display: "swap",
-});
 
 export function HeaderSheet() {
   const [isOpen, setIsOpen] = useState(false);

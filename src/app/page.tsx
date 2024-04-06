@@ -1,14 +1,8 @@
 import { Heading } from "@/components/heading";
 import { HoverBorderGradient } from "@/components/ui/hover-border-gradient";
 import { Spotlight } from "@/components/ui/spotlight";
-import { cn } from "@/lib/utils";
-import localFont from "next/font/local";
+import { cn, swFont } from "@/lib/utils";
 import Link from "next/link";
-
-const swFont = localFont({
-  src: "../../public/fonts/aurebesh.otf",
-  display: "swap",
-});
 
 export default function Home() {
   return (

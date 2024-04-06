@@ -14,6 +14,10 @@ describe("Planets lists filter", () => {
       }),
       usePathname: vi.fn(),
     }));
+
+    vi.mock("next/font/local", () => ({
+      default: vi.fn(),
+    }));
   });
 
   test("should show filters button with 'Show filters' text", () => {

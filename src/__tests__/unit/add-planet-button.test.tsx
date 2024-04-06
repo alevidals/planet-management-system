@@ -7,6 +7,10 @@ describe("Add planet button tests", () => {
     vi.mock("next/navigation", () => ({
       useRouter: () => vi.fn(),
     }));
+
+    vi.mock("next/font/local", () => ({
+      default: vi.fn(),
+    }));
   });
 
   test("should render the button", () => {

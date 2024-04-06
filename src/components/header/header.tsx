@@ -4,15 +4,9 @@ import { HeaderNav } from "@/components/header/header-nav";
 import { HeaderSheet } from "@/components/header/header-sheet";
 import { Heading } from "@/components/heading";
 import { AddPlanetButton } from "@/components/ui/add-planet-button";
-import { cn } from "@/lib/utils";
+import { cn, swFont } from "@/lib/utils";
 import { IconPlanet } from "@tabler/icons-react";
-import localFont from "next/font/local";
 import Link from "next/link";
-
-const swFont = localFont({
-  src: "../../../public/fonts/aurebesh.otf",
-  display: "swap",
-});
 
 export function Header() {
   return (
