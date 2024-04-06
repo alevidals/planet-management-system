@@ -2,7 +2,13 @@ import { Heading } from "@/components/heading";
 import { HoverBorderGradient } from "@/components/ui/hover-border-gradient";
 import { Spotlight } from "@/components/ui/spotlight";
 import { cn, swFont } from "@/lib/utils";
+import type { Metadata } from "next";
 import Link from "next/link";
+
+export const metadata: Metadata = {
+  title: "PMS",
+  description: "Planet Management System",
+};
 
 export default function Home() {
   return (
