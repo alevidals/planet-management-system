@@ -1,3 +1,4 @@
+import { BackToTopButton } from "@/components/back-to-top-button";
 import { PlanetsList } from "@/components/planets/planets-list";
 import { PlanetsListsFilter } from "@/components/planets/planets-lists-filter";
 import { getPlanets } from "@/lib/planets";
@@ -17,6 +18,7 @@ export default async function PlanetsPage() {
       <Suspense>
         <PlanetsListsFilter />
         <PlanetsList planets={planets} />
+        <BackToTopButton />
       </Suspense>
     </main>
   );
