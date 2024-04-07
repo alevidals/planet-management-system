@@ -2,10 +2,13 @@ import { Footer } from "@/components/footer";
 import { Header } from "@/components/header/header";
 import { Toaster } from "@/components/ui/toaster";
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Roboto } from "next/font/google";
 import "./globals.css";
 
-const inter = Inter({ subsets: ["latin"] });
+const roboto = Roboto({
+  weight: ["100", "300", "400", "500", "700", "900"],
+  subsets: ["latin"],
+});
 
 export const metadata: Metadata = {
   title: "PMS",
@@ -19,7 +22,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${inter.className} dark`}>
+      <body className={`${roboto.className} dark`}>
         <div className="min-h-dvh flex flex-col pt-4 relative z-50">
           <div className="container flex-1">
             <Header />
