@@ -3,7 +3,7 @@
 import { Heading } from "@/components/heading";
 import { ResidentCard } from "@/components/resident-card";
 import { useMediaQuery } from "@/hooks/use-media-query";
-import { usePlanets } from "@/lib/atoms";
+import { usePlanets } from "@/lib/store";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 

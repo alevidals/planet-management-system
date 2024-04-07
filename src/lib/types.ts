@@ -18,7 +18,8 @@ export type Order = "asc" | "desc";
 
 export type ZustandPlanetsStorage = {
   state: {
-    planets: Planet[];
+    planets: Planet[] | null;
+    firstLoadDone: boolean | null;
   };
   version: number;
 } | null;

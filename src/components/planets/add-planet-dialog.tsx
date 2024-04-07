@@ -19,8 +19,8 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
-import { usePlanets } from "@/lib/atoms";
 import { insertPlanetSchema } from "@/lib/schemas";
+import { usePlanets } from "@/lib/store";
 import type { InsertPlanet, Planet } from "@/lib/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { IconPlus, IconTrash } from "@tabler/icons-react";

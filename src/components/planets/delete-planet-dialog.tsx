@@ -9,7 +9,7 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { toast } from "@/components/ui/use-toast";
-import { usePlanets } from "@/lib/atoms";
+import { usePlanets } from "@/lib/store";
 import type { Planet } from "@/lib/types";
 
 type Props = {

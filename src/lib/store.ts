@@ -4,6 +4,8 @@ import { persist } from "zustand/middleware";
 
 type PlanetsStore = {
   planets: Planet[] | null;
+  firstLoadDone: boolean | null;
+  setFirstLoadDone: (value: boolean) => void;
   addPlanet: (planet: Planet) => void;
   addPlanets: (planets: Planet[]) => void;
   updatePlanet: (planet: Planet) => void;
@@ -14,6 +16,8 @@ export const usePlanets = create<PlanetsStore>()(
   persist(
     (set) => ({
       planets: null,
+      firstLoadDone: null,
+      setFirstLoadDone: (value: boolean) => set({ firstLoadDone: value }),
       addPlanet: (planet: Planet) =>
         set((state) => ({ planets: [...(state.planets ?? []), planet] })),
       addPlanets: (planets: Planet[]) =>

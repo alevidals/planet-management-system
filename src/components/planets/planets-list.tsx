@@ -6,8 +6,8 @@ import { PageOutOfBound } from "@/components/planets/page-out-of-bound";
 import { PlanetCard } from "@/components/planets/planet-card";
 import { PlanetsNotFound } from "@/components/planets/planets-not-found";
 
-import { usePlanets } from "@/lib/atoms";
 import { ITEMS_PER_PAGE } from "@/lib/constants";
+import { usePlanets } from "@/lib/store";
 import type {
   Order,
   OrderByField,
@@ -98,7 +98,7 @@ export function PlanetsList(props: Props) {
 
   const searchParams = useSearchParams();
 
-  const { planets, addPlanets } = usePlanets();
+  const { planets, addPlanets, setFirstLoadDone } = usePlanets();
 
   useEffect(() => {
     const storageItem = localStorage.getItem("planets");
@@ -106,8 +106,9 @@ export function PlanetsList(props: Props) {
       ? (JSON.parse(storageItem) as ZustandPlanetsStorage)
       : undefined;
 
-    if (!local?.state.planets) {
+    if (!local?.state.planets || !local?.state.firstLoadDone) {
       addPlanets(initialPlanets);
+      setFirstLoadDone(true);
     }
   }, []);
 
