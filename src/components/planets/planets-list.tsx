@@ -6,10 +6,14 @@ import { PageOutOfBound } from "@/components/planets/page-out-of-bound";
 import { PlanetCard } from "@/components/planets/planet-card";
 import { PlanetsNotFound } from "@/components/planets/planets-not-found";
 
-import { planetsAtom } from "@/lib/atoms";
+import { usePlanets } from "@/lib/atoms";
 import { ITEMS_PER_PAGE } from "@/lib/constants";
-import type { Order, OrderByField, Planet } from "@/lib/types";
-import { useAtom } from "jotai";
+import type {
+  Order,
+  OrderByField,
+  Planet,
+  ZustandPlanetsStorage,
+} from "@/lib/types";
 import { useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 
@@ -92,18 +96,18 @@ function filterAndSortPlanets(args: FilterAndSortPlanetsArgs) {
 export function PlanetsList({ planets: initialPlanets }: Props) {
   const searchParams = useSearchParams();
 
-  const [planets, setPlanets] = useAtom(planetsAtom);
+  const { planets, addPlanets } = usePlanets();
 
   useEffect(() => {
-    if (localStorage.getItem("planets") === null) {
-      setPlanets(initialPlanets);
+    const storageItem = localStorage.getItem("planets");
+    const local = storageItem
+      ? (JSON.parse(storageItem) as ZustandPlanetsStorage)
+      : undefined;
+
+    if (!local?.state.planets) {
+      addPlanets(initialPlanets);
     }
   }, []);
-
-  const search = searchParams.get("search") ?? "";
-  const page = searchParams.get("page") ? Number(searchParams.get("page")) : 1;
-  const orderBy = (searchParams.get("orderBy") as OrderByField) ?? "";
-  const order = (searchParams.get("order") as Order) ?? "asc";
 
   if (!planets) {
     return (
@@ -112,6 +116,11 @@ export function PlanetsList({ planets: initialPlanets }: Props) {
       </div>
     );
   }
+
+  const search = searchParams.get("search") ?? "";
+  const page = searchParams.get("page") ? Number(searchParams.get("page")) : 1;
+  const orderBy = (searchParams.get("orderBy") as OrderByField) ?? "";
+  const order = (searchParams.get("order") as Order) ?? "asc";
 
   const { filteredAndSortedPlanets, totalItems, totalPages } =
     filterAndSortPlanets({

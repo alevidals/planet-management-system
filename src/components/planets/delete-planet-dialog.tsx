@@ -9,9 +9,8 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { toast } from "@/components/ui/use-toast";
-import { planetsAtom } from "@/lib/atoms";
+import { usePlanets } from "@/lib/atoms";
 import type { Planet } from "@/lib/types";
-import { useSetAtom } from "jotai";
 
 type Props = {
   isOpen: boolean;
@@ -22,10 +21,10 @@ type Props = {
 export function DeletePlanetDialog(props: Props) {
   const { isOpen, setIsOpen, planet } = props;
 
-  const setPlanets = useSetAtom(planetsAtom);
+  const { removePlanet } = usePlanets();
 
   function handleDeletePlanet() {
-    setPlanets((prev) => prev?.filter((p) => p.id !== planet.id) ?? []);
+    removePlanet(planet);
     toast({
       title: "Planet deleted successfully",
     });

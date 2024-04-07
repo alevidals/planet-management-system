@@ -19,12 +19,11 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
-import { planetsAtom } from "@/lib/atoms";
+import { usePlanets } from "@/lib/atoms";
 import { insertPlanetSchema } from "@/lib/schemas";
 import type { InsertPlanet, Planet } from "@/lib/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { IconPlus, IconTrash } from "@tabler/icons-react";
-import { useSetAtom } from "jotai";
 import { useRouter } from "next/navigation";
 import { type Dispatch, type SetStateAction, useEffect } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
@@ -41,7 +40,7 @@ export function AddPlanetDialog(props: Props) {
 
   const { toast } = useToast();
 
-  const setPlanets = useSetAtom(planetsAtom);
+  const { addPlanet } = usePlanets();
 
   const form = useForm<InsertPlanet>({
     resolver: zodResolver(insertPlanetSchema),
@@ -114,7 +113,7 @@ export function AddPlanetDialog(props: Props) {
         })) ?? [],
     };
 
-    setPlanets((prev) => [...(prev ?? []), planet]);
+    addPlanet(planet);
 
     router.replace(`/planets/${planet.id}`);
     setIsOpen(false);

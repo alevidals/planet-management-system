@@ -16,5 +16,12 @@ export type OrderByField =
 
 export type Order = "asc" | "desc";
 
+export type ZustandPlanetsStorage = {
+  state: {
+    planets: Planet[];
+  };
+  version: number;
+} | null;
+
 export type InsertPlanet = z.infer<typeof insertPlanetSchema>;
 export type UpdatePlanet = z.infer<typeof updatePlanetSchema>;

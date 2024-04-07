@@ -3,8 +3,7 @@
 import { Heading } from "@/components/heading";
 import { ResidentCard } from "@/components/resident-card";
 import { useMediaQuery } from "@/hooks/use-media-query";
-import { planetsAtom } from "@/lib/atoms";
-import { useAtomValue } from "jotai";
+import { usePlanets } from "@/lib/atoms";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 
@@ -24,7 +23,7 @@ export function Planet(props: Props) {
 
   const isDesktop = useMediaQuery("(min-width: 768px)");
 
-  const planets = useAtomValue(planetsAtom);
+  const { planets } = usePlanets();
 
   if (!planets) {
     return (
