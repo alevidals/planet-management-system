@@ -46,7 +46,7 @@ export function AddPlanetDialog(props: Props) {
     resolver: zodResolver(insertPlanetSchema),
     defaultValues: {
       name: "",
-      diameter: 0,
+      diameter: "",
       climates: [
         {
           climate: "",
@@ -169,13 +169,7 @@ export function AddPlanetDialog(props: Props) {
                 <FormItem>
                   <FormLabel>Diameter</FormLabel>
                   <FormControl>
-                    <Input
-                      type="number"
-                      {...field}
-                      onChange={(event) =>
-                        field.onChange(Number(event.target.value))
-                      }
-                    />
+                    <Input type="number" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

@@ -72,12 +72,12 @@ export function Planet(props: Props) {
           </Heading>
           <p className="break-all">{formattedClimates}</p>
         </div>
-        <div className="h-96 md:w-[30rem] w-96 md:h-[30rem] relative group shrink-0 order-1 md:order-2 duration-300">
+        <div className="relative group shrink-0 order-1 md:order-2 duration-300">
           <Image
             src="/planet.webp"
             alt="planet"
-            width={isDesktop ? 480 : 384}
-            height={isDesktop ? 480 : 384}
+            width={isDesktop ? 480 : 300}
+            height={isDesktop ? 480 : 300}
             priority
             className="opacity-50 group-hover:opacity-100 duration-500"
           />

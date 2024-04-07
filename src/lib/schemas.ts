@@ -4,9 +4,14 @@ export const insertPlanetSchema = z.object({
   name: z.string().min(1, {
     message: "Name is required",
   }),
-  diameter: z.number().min(1, {
-    message: "Diameter is required",
-  }),
+  diameter: z
+    .string()
+    .min(1, {
+      message: "Diameter is required",
+    })
+    .refine((value) => !Number.isNaN(value) && Number(value) > 0, {
+      message: "Diameter must be a number greater than 0",
+    }),
   climates: z
     .array(
       z.object({
