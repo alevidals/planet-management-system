@@ -42,6 +42,13 @@ export function getHref(args: GetHrefArgs) {
   return href;
 }
 
+export function capitalize(str: string) {
+  return str
+    .split(" ")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
+}
+
 export const swFont = localFont({
   src: "../../public/fonts/aurebesh.otf",
   display: "swap",

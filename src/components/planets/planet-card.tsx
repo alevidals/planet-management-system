@@ -26,7 +26,7 @@ export function PlanetCard({ planet }: Props) {
   return (
     <Card className="hover:border-primary overflow-hidden relative">
       <CardHeader className="flex flex-row justify-between items-center space-y-0 gap-x-4">
-        <Link href={`/planets/${planet.id}`}>
+        <Link href={`/planets/${planet.name.toLowerCase()}`}>
           <CardTitle className="mb-1 break-all">{planet.name}</CardTitle>
           <CardDescription>
             {numberFormatter.format(planet.diameter)} km
@@ -35,7 +35,7 @@ export function PlanetCard({ planet }: Props) {
         <PlanetDropdownMenu planet={planet} />
       </CardHeader>
       <Separator />
-      <Link href={`/planets/${planet.id}`}>
+      <Link href={`/planets/${planet.name.toLocaleLowerCase()}`}>
         <CardContent className="flex flex-col gap-y-2 p-6">
           <div className="flex gap-x-4 items-center">
             <div>

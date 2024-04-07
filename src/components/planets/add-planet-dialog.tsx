@@ -40,7 +40,7 @@ export function AddPlanetDialog(props: Props) {
 
   const { toast } = useToast();
 
-  const { addPlanet } = usePlanets();
+  const { planets, addPlanet } = usePlanets();
 
   const form = useForm<InsertPlanet>({
     resolver: zodResolver(insertPlanetSchema),
@@ -93,6 +93,21 @@ export function AddPlanetDialog(props: Props) {
   });
 
   function handleSubmit(data: InsertPlanet) {
+    const exists = planets?.some(
+      (planet) =>
+        planet.name.toLocaleLowerCase() === data.name.toLocaleLowerCase(),
+    );
+
+    if (exists) {
+      toast({
+        title: "Planet already exists",
+        description: "A planet with the same name already exists",
+        variant: "destructive",
+      });
+
+      return;
+    }
+
     const planet: Planet = {
       id: randomBytes(12).toString("hex"),
       name: data.name,
@@ -115,7 +130,7 @@ export function AddPlanetDialog(props: Props) {
 
     addPlanet(planet);
 
-    router.replace(`/planets/${planet.id}`);
+    router.replace(`/planets/${planet.name.toLocaleLowerCase()}`);
     setIsOpen(false);
     form.reset();
     toast({

@@ -8,7 +8,7 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 
 type Props = {
-  id: string;
+  name: string;
 };
 
 const formatter = new Intl.ListFormat("en", {
@@ -19,7 +19,7 @@ const formatter = new Intl.ListFormat("en", {
 const numberFormatter = new Intl.NumberFormat("en");
 
 export function Planet(props: Props) {
-  const { id } = props;
+  const { name } = props;
 
   const isDesktop = useMediaQuery("(min-width: 768px)");
 
@@ -36,7 +36,7 @@ export function Planet(props: Props) {
   }
 
   const planet = planets?.find(
-    (planet) => planet.id === decodeURIComponent(id),
+    (planet) => planet.name.toLocaleLowerCase() === decodeURIComponent(name),
   );
 
   if (!planet) {
