@@ -27,12 +27,23 @@ export function PlanetsListsFilter() {
 
   useEffect(() => {
     const timeout = setTimeout(() => {
-      const href = getHref({
-        action: "set",
-        searchParams,
-        pathname,
-        paramsToSet: [{ search }],
-      });
+      let href: string;
+
+      if (search) {
+        href = getHref({
+          action: "set",
+          searchParams,
+          pathname,
+          paramsToSet: [{ search }],
+        });
+      } else {
+        href = getHref({
+          action: "delete",
+          pathname,
+          searchParams,
+          paramsToDelete: ["search"],
+        });
+      }
 
       router.replace(href);
     }, DEBOUNCE_TIME);

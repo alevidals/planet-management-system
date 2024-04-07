@@ -22,7 +22,9 @@ const listFormatter = new Intl.ListFormat("en", {
 });
 const numberFormatter = new Intl.NumberFormat("en");
 
-export function PlanetCard({ planet }: Props) {
+export function PlanetCard(props: Props) {
+  const { planet } = props;
+
   return (
     <Card className="hover:border-primary overflow-hidden relative">
       <CardHeader className="flex flex-row justify-between items-center space-y-0 gap-x-4">

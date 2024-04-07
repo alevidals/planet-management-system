@@ -93,7 +93,9 @@ function filterAndSortPlanets(args: FilterAndSortPlanetsArgs) {
   };
 }
 
-export function PlanetsList({ planets: initialPlanets }: Props) {
+export function PlanetsList(props: Props) {
+  const { planets: initialPlanets } = props;
+
   const searchParams = useSearchParams();
 
   const { planets, addPlanets } = usePlanets();
