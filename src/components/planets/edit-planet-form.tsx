@@ -32,7 +32,7 @@ export function EditPlanetForm(props: Props) {
     resolver: zodResolver(updatePlanetSchema),
     defaultValues: {
       name: planet.name,
-      diameter: planet.diameter,
+      diameter: String(planet.diameter),
       climates: planet.climates,
       terrains: planet.terrains,
       residents: planet.residents,
@@ -68,6 +68,7 @@ export function EditPlanetForm(props: Props) {
     const newPlanet: Planet = {
       ...planet,
       ...data,
+      diameter: Number(data.diameter),
       residents: data.residents.map((resident) => ({
         id: resident.id || Math.random().toString(),
         name: resident.name,
@@ -114,13 +115,7 @@ export function EditPlanetForm(props: Props) {
             <FormItem>
               <FormLabel>Diameter</FormLabel>
               <FormControl>
-                <Input
-                  type="number"
-                  {...field}
-                  onChange={(event) =>
-                    field.onChange(Number(event.target.value))
-                  }
-                />
+                <Input type="number" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
