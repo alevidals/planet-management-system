@@ -28,7 +28,7 @@ export function PlanetCard(props: Props) {
   return (
     <Card className="hover:border-primary overflow-hidden relative">
       <CardHeader className="flex flex-row justify-between items-center space-y-0 gap-x-4">
-        <Link href={`/planets/${planet.name.toLowerCase()}`}>
+        <Link href={`/planets/${planet.name.toLowerCase()}`} className="flex-1">
           <CardTitle className="mb-1 break-all">{planet.name}</CardTitle>
           <CardDescription>
             {numberFormatter.format(planet.diameter)} km
